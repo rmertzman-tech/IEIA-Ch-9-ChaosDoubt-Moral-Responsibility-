@@ -302,13 +302,13 @@
         }
         
         .cone-tight {
-            border-width: 30px 0 30px 900px;
-            border-color: transparent transparent transparent #48bb78;
+            border-width: 30px 900px 30px 0;
+            border-color: transparent #48bb78 transparent transparent;
         }
         
         .cone-wide {
-            border-width: 145px 0 145px 900px;
-            border-color: transparent transparent transparent #f56565;
+            border-width: 145px 900px 145px 0;
+            border-color: transparent #f56565 transparent transparent;
         }
         
         /* Decision Cards */
@@ -809,7 +809,7 @@
                 
                 <div class="interactive-section" role="group" aria-labelledby="cone-heading">
                     <h3 id="cone-heading">The Cone of Uncertainty</h3>
-                    <p>Meteorologists visualize forecast uncertainty as a cone. The wider the cone, the more the ensemble members disagree. This isn't a defect—it's <em>information</em>.</p>
+                    <p>Meteorologists visualize forecast uncertainty as a cone expanding from left (now) to right (future). The wider the cone spreads, the more the ensemble members disagree. This isn't a defect—it's <em>information</em>.</p>
                     
                     <div class="button-group">
                         <button onclick="updateCone('tight')" 
@@ -1101,19 +1101,19 @@
             
             if (type === 'tight') {
                 shape.className = 'cone-shape cone-tight';
-                display.setAttribute('aria-label', 'Narrow cone showing high model agreement');
+                display.setAttribute('aria-label', 'Narrow cone expanding from left to right, showing high model agreement and low uncertainty');
                 fb.innerHTML = `
                     <div class="key-concept-title">✅ Tight Cone: High Agreement</div>
-                    <p><strong>Meaning:</strong> The ensemble models agree closely. Uncertainty is low.</p>
+                    <p><strong>Meaning:</strong> The ensemble models agree closely. The cone stays narrow as time progresses. Uncertainty is low.</p>
                     <p><strong>Decision implication:</strong> Decisive action is safer. The futures converge. You can commit resources without excessive hedging.</p>
                     <p><strong>Example:</strong> "90% of simulations show success" → Act confidently.</p>
                 `;
             } else {
                 shape.className = 'cone-shape cone-wide';
-                display.setAttribute('aria-label', 'Wide cone showing high model divergence');
+                display.setAttribute('aria-label', 'Wide cone expanding dramatically from left to right, showing high model divergence and uncertainty');
                 fb.innerHTML = `
                     <div class="key-concept-title">⚠️ Wide Cone: High Chaos</div>
-                    <p><strong>Meaning:</strong> The ensemble models diverge wildly. Uncertainty is high.</p>
+                    <p><strong>Meaning:</strong> The ensemble models diverge wildly. The cone spreads wide as time progresses. Uncertainty is high.</p>
                     <p><strong>Decision implication:</strong> Preserve options. The futures scatter. Don't commit irreversibly—maintain flexibility.</p>
                     <p><strong>Example:</strong> "Outcomes range from total success to catastrophic failure" → Design for robustness, not optimization.</p>
                 `;
