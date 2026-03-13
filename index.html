@@ -1443,30 +1443,102 @@ You maintained moral purity and refused all compromise. You felt virtuous and pr
         }
         
         function parsePRFData(data) {
-            // Handle different possible structures
-            const foundations = data.foundations || data.moralFoundations || {};
+            console.log('=== PRF FILE DEBUGGING ===');
+            console.log('Full data structure:', JSON.stringify(data, null, 2));
+            console.log('Top-level keys:', Object.keys(data));
             
-            // Check if we have valid foundation data
-            if (!foundations || Object.keys(foundations).length === 0) {
+            // Try multiple possible locations for foundation data
+            let foundations = null;
+            let foundLocation = '';
+            
+            // Check prf22.moralFoundations (actual PRF-22 format)
+            if (data.prf22 && data.prf22.moralFoundations && typeof data.prf22.moralFoundations === 'object') {
+                foundations = data.prf22.moralFoundations;
+                foundLocation = 'data.prf22.moralFoundations';
+                console.log('✓ Found foundations at prf22.moralFoundations (PRF-22 format)');
+            }
+            // Check top-level foundations field
+            else if (data.foundations && typeof data.foundations === 'object') {
+                foundations = data.foundations;
+                foundLocation = 'data.foundations';
+                console.log('✓ Found foundations at top level');
+            }
+            // Check moralFoundations field
+            else if (data.moralFoundations && typeof data.moralFoundations === 'object') {
+                foundations = data.moralFoundations;
+                foundLocation = 'data.moralFoundations';
+                console.log('✓ Found moralFoundations field');
+            }
+            // Check if foundations are nested in identityKernel
+            else if (data.identityKernel && data.identityKernel.foundations) {
+                foundations = data.identityKernel.foundations;
+                foundLocation = 'data.identityKernel.foundations';
+                console.log('✓ Found foundations in identityKernel');
+            }
+            // Check if foundations are nested in prfProfile
+            else if (data.prfProfile && data.prfProfile.foundations) {
+                foundations = data.prfProfile.foundations;
+                foundLocation = 'data.prfProfile.foundations';
+                console.log('✓ Found foundations in prfProfile');
+            }
+            
+            // Validate we found something
+            if (!foundations || typeof foundations !== 'object') {
+                console.error('✗ Could not find foundations in any expected location');
+                console.error('Checked locations: data.prf22.moralFoundations, data.foundations, data.moralFoundations, data.identityKernel.foundations, data.prfProfile.foundations');
+                console.error('Available top-level fields:', Object.keys(data));
+                
+                // Show user the actual structure
+                alert(`DEBUG INFO:\n\nCould not find foundation data in expected locations.\n\nYour file has these top-level fields:\n${Object.keys(data).join(', ')}\n\nPlease check the browser console (F12) and copy the "Full data structure" output to share with support.`);
+                
                 throw new Error('No foundation data found in file');
             }
             
-            // Get dominant foundation
-            const entries = Object.entries(foundations);
+            console.log('Found foundations at:', foundLocation);
+            
+            // Normalize foundation names (PRF-22 uses capitalized names like "Care", we need lowercase like "care")
+            // Also map alternative names (purity = sanctity)
+            const normalizedFoundations = {};
+            for (const [key, value] of Object.entries(foundations)) {
+                const lowerKey = key.toLowerCase();
+                // Map purity to sanctity (same foundation, different name)
+                const mappedKey = lowerKey === 'purity' ? 'sanctity' : lowerKey;
+                normalizedFoundations[mappedKey] = value;
+            }
+            console.log('Normalized foundations:', normalizedFoundations);
+            
+            // Get foundation entries
+            const entries = Object.entries(normalizedFoundations);
             if (entries.length === 0) {
-                throw new Error('No foundation values found');
+                console.error('✗ Foundations object is empty:', foundations);
+                throw new Error('Foundation data is empty');
             }
             
-            const dominant = entries.sort((a, b) => b[1] - a[1])[0];
+            console.log('✓ Foundation entries found:', entries);
             
-            return {
-                name: data.name || data.userName || 'Student',
-                foundations: foundations,
+            // Get dominant foundation
+            const dominant = entries.sort((a, b) => b[1] - a[1])[0];
+            console.log('✓ Dominant foundation:', dominant);
+            
+            // Try multiple possible name fields (including agentParameters.id)
+            const name = data.name || data.userName || data.studentName || 
+                         (data.identityKernel && data.identityKernel.name) ||
+                         (data.prfProfile && data.prfProfile.name) ||
+                         (data.agentParameters && data.agentParameters.id) ||
+                         'Student';
+            
+            const profile = {
+                name: name,
+                foundations: normalizedFoundations,
                 dominant: {
                     name: dominant[0],
                     value: dominant[1]
                 }
             };
+            
+            console.log('✓ Successfully parsed profile:', profile);
+            console.log('=== END DEBUGGING ===');
+            return profile;
         }
         
         function skipPersonalization() {
@@ -1523,7 +1595,23 @@ You maintained moral purity and refused all compromise. You felt virtuous and pr
         
         function personalizeContent() {
             const dominantName = prfProfile.dominant.name;
-            const pattern = prfPatterns[dominantName] || prfPatterns.care; // Default to care if generic
+            const pattern = prfPatterns[dominantName];
+            
+            // If we don't have a pattern for this foundation, fall back to generic
+            if (!pattern) {
+                console.warn(`No personalization pattern defined for ${dominantName} foundation`);
+                alert(`Your dominant foundation is ${dominantName}, but we don't have a personalization pattern for that yet. Showing generic version instead.`);
+                isPersonalized = false;
+                
+                // Set generic profile and call personalizeContent again
+                prfProfile = {
+                    name: prfProfile.name,
+                    foundations: {},
+                    dominant: { name: 'generic', value: 0 }
+                };
+                personalizeContent();
+                return;
+            }
             
             // Module 0 Content
             if (isPersonalized) {
