@@ -1413,26 +1413,54 @@ You maintained moral purity and refused all compromise. You felt virtuous and pr
             reader.onload = function(e) {
                 try {
                     const data = JSON.parse(e.target.result);
+                    console.log('Parsed JSON data:', data); // Debug logging
+                    
                     prfProfile = parsePRFData(data);
                     isPersonalized = true;
                     displayPRFProfile();
                     personalizeContent();
                     showMainContent();
                 } catch (error) {
-                    alert('Error reading PRF file. Please ensure it is a valid JSON file from the PRF-22 Digital E-Twin app.');
                     console.error('Parse error:', error);
+                    console.error('Error details:', error.message);
+                    
+                    let errorMessage = 'Error reading PRF file. ';
+                    if (error instanceof SyntaxError) {
+                        errorMessage += 'The file does not contain valid JSON. Please ensure you selected the correct .json file from the PRF-22 app.';
+                    } else {
+                        errorMessage += error.message + '. Please ensure this is a valid PRF-22 Digital E-Twin JSON file.';
+                    }
+                    
+                    alert(errorMessage);
                 }
             };
+            
+            reader.onerror = function() {
+                alert('Error reading file. Please try again.');
+            };
+            
             reader.readAsText(file);
         }
         
         function parsePRFData(data) {
-            const foundations = data.foundations || {};
-            const dominant = Object.entries(foundations)
-                .sort((a, b) => b[1] - a[1])[0];
+            // Handle different possible structures
+            const foundations = data.foundations || data.moralFoundations || {};
+            
+            // Check if we have valid foundation data
+            if (!foundations || Object.keys(foundations).length === 0) {
+                throw new Error('No foundation data found in file');
+            }
+            
+            // Get dominant foundation
+            const entries = Object.entries(foundations);
+            if (entries.length === 0) {
+                throw new Error('No foundation values found');
+            }
+            
+            const dominant = entries.sort((a, b) => b[1] - a[1])[0];
             
             return {
-                name: data.name || 'Student',
+                name: data.name || data.userName || 'Student',
                 foundations: foundations,
                 dominant: {
                     name: dominant[0],
