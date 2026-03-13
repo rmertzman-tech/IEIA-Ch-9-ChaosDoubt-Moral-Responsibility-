@@ -3,449 +3,1287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chaos, Doubt, and Moral Responsibility</title>
+    <title>Chaos, Doubt, and Moral Responsibility - The Ensemble Approach</title>
     <style>
-        :root {
-            --primary: #2c5282;
-            --secondary: #4299e1;
-            --success: #48bb78;
-            --warning: #ed8936;
-            --danger: #f56565;
-            --purple: #805ad5;
-            --teal: #319795;
-            --background: #f7fafc;
-            --card-bg: #ffffff;
-            --text: #2d3748;
-            --text-light: #718096;
-            --border: #e2e8f0;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
             line-height: 1.6;
-            color: var(--text);
-            background: var(--background);
-            padding: 20px;
         }
-
-        .container { max-width: 900px; margin: 0 auto; }
-
-        header {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 30px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .progress-container {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 30px;
-            background: var(--border);
-            border-radius: 15px;
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
-            margin-bottom: 10px;
         }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4299e1, #48bb78);
-            width: 0%;
-            transition: width 0.5s ease;
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '🦋';
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 3em;
+            opacity: 0.3;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+        
+        /* Download Button */
+        .download-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
+            gap: 8px;
         }
-
-        .module {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
+        
+        .download-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.5);
+        }
+        
+        .download-button:active {
+            transform: translateY(-1px);
+        }
+        
+        .download-button:focus {
+            outline: 3px solid #48bb78;
+            outline-offset: 3px;
+        }
+        
+        .download-icon {
+            font-size: 1.2em;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .progress-bar {
+            background: #e0e0e0;
+            height: 12px;
+            border-radius: 6px;
             margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            display: none;
+            overflow: hidden;
+            position: relative;
         }
-
-        .module.active { display: block; animation: fadeIn 0.5s; }
-
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #333;
+            font-weight: bold;
+            font-size: 0.85em;
+            z-index: 2;
+        }
+        
+        .module {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .module.active {
+            display: block;
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        .module h2 { color: var(--primary); margin-bottom: 20px; border-bottom: 3px solid #4299e1; padding-bottom: 10px; }
-
+        
+        h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+        
+        h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+        
+        h4 {
+            color: #555;
+            font-size: 1.2em;
+            margin: 15px 0 10px 0;
+        }
+        
+        p {
+            margin: 15px 0;
+            color: #333;
+            font-size: 1.05em;
+        }
+        
         .learning-objective {
-            background: #ebf8ff;
-            border-left: 4px solid #4299e1;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-
-        .key-concept {
-            background: #e6fffa;
-            border-left: 4px solid #319795;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-
-        .key-concept-title { font-weight: bold; color: #234e52; margin-bottom: 8px; }
-
-        .interactive-section {
-            background: #f7fafc;
-            border: 2px solid var(--border);
+            background: linear-gradient(135deg, #e8f4f8 0%, #d4e9f7 100%);
+            border-left: 6px solid #667eea;
+            padding: 25px;
+            margin: 25px 0;
             border-radius: 8px;
-            padding: 20px;
+        }
+        
+        .learning-objective strong {
+            color: #667eea;
+            font-size: 1.1em;
+        }
+        
+        .key-concept {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left: 6px solid #764ba2;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+        
+        .key-concept-title {
+            font-weight: bold;
+            color: #764ba2;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        
+        .interactive-section {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 25px 0;
+        }
+        
+        /* Weather Comparison */
+        .weather-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
             margin: 20px 0;
         }
-
-        /* Ensemble Grid Refined */
+        
+        .weather-column {
+            text-align: center;
+        }
+        
+        .weather-column h4 {
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        
+        .weather-display {
+            height: 180px;
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            border-radius: 12px;
+            position: relative;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .weather-icon {
+            font-size: 4em;
+            transition: all 0.5s ease;
+        }
+        
+        .weather-text {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #555;
+            min-height: 24px;
+        }
+        
+        /* Ensemble Grid */
         .ensemble-container {
             position: relative;
             width: 100%;
-            height: 300px;
-            background: white;
-            border-radius: 8px;
+            height: 350px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
             margin: 20px 0;
             overflow: hidden;
-            border: 1px solid var(--border);
+            border: 2px solid #e0e0e0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
-
+        
         .simulation-dot {
             position: absolute;
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
-            background: #4299e1;
-            transition: transform 1.5s cubic-bezier(0.45, 0, 0.55, 1), background 0.5s;
+            background: #667eea;
+            transition: transform 1.8s cubic-bezier(0.45, 0, 0.55, 1), background 0.5s;
             top: 50%;
             left: 50%;
-            margin-top: -6px;
-            margin-left: -6px;
+            margin-top: -7px;
+            margin-left: -7px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-
-        /* Cone Visualizer Fix */
+        
+        /* Cone Visualizer */
         .cone-display {
             position: relative;
             height: 300px;
-            background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e0 100%);
-            border-radius: 8px;
+            background: linear-gradient(90deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
             overflow: hidden;
             display: flex;
             align-items: center;
+            border: 2px solid #e0e0e0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
-
+        
         .cone-shape {
             position: absolute;
             left: 0;
             width: 0;
             height: 0;
             border-style: solid;
-            opacity: 0.6;
+            opacity: 0.7;
             transition: all 1s ease-in-out;
         }
-
+        
         .cone-tight {
-            border-width: 20px 0 20px 850px;
+            border-width: 30px 0 30px 900px;
             border-color: transparent transparent transparent #48bb78;
         }
-
+        
         .cone-wide {
-            border-width: 140px 0 140px 850px;
+            border-width: 145px 0 145px 900px;
             border-color: transparent transparent transparent #f56565;
         }
-
+        
         /* Decision Cards */
         .decision-comparison {
             display: grid;
             grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 25px 0;
+        }
+        
+        .decision-card {
+            padding: 25px;
+            border-radius: 12px;
+            border: 3px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .decision-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .decision-card.single {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+            border-color: #fc8181;
+        }
+        
+        .decision-card.ensemble {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-color: #48bb78;
+        }
+        
+        .decision-card h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        
+        /* Buttons */
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        button:focus {
+            outline: 3px solid #667eea;
+            outline-offset: 2px;
+        }
+        
+        button.success {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+        
+        button.success:hover {
+            box-shadow: 0 6px 12px rgba(72, 187, 120, 0.4);
+        }
+        
+        button.danger {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        }
+        
+        button.danger:hover {
+            box-shadow: 0 6px 12px rgba(245, 101, 101, 0.4);
+        }
+        
+        button.secondary {
+            background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+        }
+        
+        /* Textarea */
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            margin: 15px 0;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+            gap: 15px;
+        }
+        
+        /* Button Groups */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        /* Feedback Box */
+        .feedback-box {
+            background: linear-gradient(135deg, #fef5e7 0%, #fdebd0 100%);
+            border-left: 6px solid #f39c12;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .feedback-box.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        /* Pre-mortem specific */
+        .premortem-grid {
+            display: grid;
             gap: 20px;
             margin: 20px 0;
         }
-
-        .decision-card { padding: 20px; border-radius: 12px; border: 3px solid var(--border); }
-        .decision-card.single { background: #fff5f5; }
-        .decision-card.ensemble { background: #f0fff4; }
-
-        .identity-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .identity-card { padding: 20px; border-radius: 12px; border: 3px solid var(--border); text-align: center;}
-
-        button {
-            background: #4299e1;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
+        
+        .premortem-step {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
         }
-
-        button:hover { background: #2c5282; transform: translateY(-2px); }
-        button:disabled { background: #cbd5e0; cursor: not-allowed; }
         
-        .navigation { display: flex; justify-content: space-between; margin-top: 30px; border-top: 2px solid var(--border); padding-top: 20px; }
+        .premortem-step h4 {
+            color: #667eea;
+            margin-top: 0;
+        }
         
-        textarea { width: 100%; min-height: 100px; padding: 12px; border-radius: 6px; border: 2px solid var(--border); margin: 10px 0; }
-
-        .weather-display { height: 150px; background: #2d3748; border-radius: 12px; position: relative; margin: 10px 0; }
-        .weather-icon { font-size: 3em; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-
+        /* Screen reader only text */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Mobile Responsiveness */
         @media (max-width: 768px) {
-            .decision-comparison, .identity-comparison { grid-template-columns: 1fr; }
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .weather-grid,
+            .decision-comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .navigation button {
+                width: 100%;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .button-group button {
+                width: 100%;
+            }
+            
+            /* Download button mobile adjustments */
+            .download-button {
+                bottom: 20px;
+                right: 20px;
+                padding: 14px 20px;
+                font-size: 0.95em;
+            }
+            
+            .download-button span:last-child {
+                display: none;
+            }
+            
+            .download-button .download-icon {
+                font-size: 1.5em;
+            }
+        }
+        
+        /* Focus visible for keyboard navigation */
+        *:focus-visible {
+            outline: 3px solid #667eea;
+            outline-offset: 2px;
+        }
+        
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            button {
+                border: 2px solid currentColor;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
+        <div class="header">
             <h1>Chaos, Doubt, and Moral Responsibility</h1>
-            <p>The Ensemble Approach</p>
-        </header>
-
-        <div class="progress-container">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill">0%</div>
-            </div>
-            <div id="completedModules"></div>
+            <p>The Ensemble Approach to Ethical Decision-Making</p>
         </div>
-
-        <section class="module active" id="module0">
-            <h2>Introduction: The Sin of Certainty</h2>
-            <div class="learning-objective">
-                <strong>Learning Objective:</strong> Understand that certainty is a premature termination of computation. In complexity, being "sure" is often a biological shortcut, not an ethical strength.
+        
+        <!-- Floating Download Button -->
+        <button class="download-button" 
+                onclick="downloadReflections()"
+                aria-label="Download your reflections as a text file"
+                title="Download all your reflections">
+            <span class="download-icon" aria-hidden="true">📥</span>
+            <span>Download My Reflections</span>
+        </button>
+        
+        <div class="content">
+            <!-- Progress Bar -->
+            <div role="progressbar" 
+                 aria-valuenow="0" 
+                 aria-valuemin="0" 
+                 aria-valuemax="100" 
+                 aria-label="Course progress"
+                 class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+                <div class="progress-text" id="progressText">0%</div>
             </div>
-            <p>The brain craves certainty because it is metabolically cheap. Doubting requires energy. However, in chaotic systems, certainty is mathematically equivalent to blindness.</p>
-            <textarea id="checkpoint0" placeholder="Why does certainty feel like a 'drug' to the brain?"></textarea>
-            <div class="navigation">
-                <button disabled>← Previous</button>
-                <button onclick="nextModule()">Next: Butterfly Effect →</button>
-            </div>
-        </section>
-
-        <section class="module" id="module1">
-            <h2>Part I: The Butterfly Effect</h2>
-            <div class="interactive-section">
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <div style="text-align:center">
-                        <p>Input: 0.506127</p>
-                        <div class="weather-display"><div class="weather-icon" id="iconOrig">☀️</div></div>
-                        <p id="textOrig">Clear skies</p>
+            
+            <!-- Module 0: Introduction -->
+            <section class="module active" id="module0" role="region" aria-labelledby="heading0">
+                <h2 id="heading0">Introduction: The Sin of Certainty</h2>
+                
+                <div class="learning-objective" role="complementary" aria-label="Learning objective">
+                    <strong>Learning Objective:</strong> Understand that certainty is a premature termination of computation. In complex systems, being "sure" is often a biological shortcut, not an ethical strength.
+                </div>
+                
+                <p>The brain craves certainty because it is <strong>metabolically cheap</strong>. Doubting requires energy—it keeps neural networks active, running parallel simulations, evaluating counterfactuals. This is why certainty feels like relief: your prefrontal cortex gets to rest.</p>
+                
+                <p>However, in chaotic systems (which includes most real-world ethical decisions), certainty is mathematically equivalent to blindness. When you declare "I'm absolutely sure," you're not demonstrating strength—you're announcing that you've stopped computing.</p>
+                
+                <div class="key-concept">
+                    <div class="key-concept-title">🔑 Key Insight</div>
+                    <p>Doubt is not a character flaw. It is an accurate measurement of system complexity. The most ethical agents are those who can tolerate uncertainty long enough to run the simulations.</p>
+                </div>
+                
+                <label for="checkpoint0">
+                    <strong>Reflection:</strong> Why does certainty feel like a "drug" to the brain? Describe a time when you felt certain about something, only to discover later that the situation was far more complex than you realized.
+                </label>
+                <textarea id="checkpoint0" 
+                          aria-describedby="checkpoint0-hint"
+                          placeholder="Type your reflection here..."></textarea>
+                <div id="checkpoint0-hint" class="sr-only">This reflection will help you recognize certainty bias in your own thinking</div>
+                
+                <div class="navigation">
+                    <button disabled aria-label="Previous module (disabled, this is the first module)">← Previous</button>
+                    <button onclick="nextModule()" aria-label="Continue to next module: The Butterfly Effect">Next: Butterfly Effect →</button>
+                </div>
+            </section>
+            
+            <!-- Module 1: Butterfly Effect -->
+            <section class="module" id="module1" role="region" aria-labelledby="heading1">
+                <h2 id="heading1">Part I: The Butterfly Effect</h2>
+                
+                <p>In 1961, meteorologist Edward Lorenz discovered that rounding a number from 0.506127 to 0.506 in his weather simulation created <strong>completely different weather patterns</strong> weeks later. A difference of 0.000127—smaller than a rounding error—led to hurricanes vs. clear skies.</p>
+                
+                <p>This is <strong>deterministic chaos</strong>: The system follows precise rules (it's not random), but tiny differences in initial conditions create massive divergence.</p>
+                
+                <div class="interactive-section" role="group" aria-labelledby="lorenz-heading">
+                    <h3 id="lorenz-heading">Interactive: Lorenz Weather Simulation</h3>
+                    <p>Watch how a 0.0001 difference in initial conditions leads to opposite weather outcomes:</p>
+                    
+                    <div class="weather-grid">
+                        <div class="weather-column">
+                            <h4>Simulation A</h4>
+                            <p><strong>Input:</strong> 0.506127</p>
+                            <div class="weather-display" role="img" aria-label="Weather display for simulation A">
+                                <div class="weather-icon" id="iconOrig" aria-hidden="true">☀️</div>
+                            </div>
+                            <p class="weather-text" id="textOrig" aria-live="polite">Day 1: Clear skies</p>
+                        </div>
+                        
+                        <div class="weather-column">
+                            <h4>Simulation B</h4>
+                            <p><strong>Input:</strong> 0.506000</p>
+                            <div class="weather-display" role="img" aria-label="Weather display for simulation B">
+                                <div class="weather-icon" id="iconRound" aria-hidden="true">☀️</div>
+                            </div>
+                            <p class="weather-text" id="textRound" aria-live="polite">Day 1: Clear skies</p>
+                        </div>
                     </div>
-                    <div style="text-align:center">
-                        <p>Input: 0.506</p>
-                        <div class="weather-display"><div class="weather-icon" id="iconRound">☀️</div></div>
-                        <p id="textRound">Clear skies</p>
+                    
+                    <button onclick="runLorenz()" 
+                            id="lorenzBtn"
+                            aria-describedby="lorenz-description"
+                            style="width: 100%; margin-top: 15px;">
+                        ▶ Run Weather Simulation
+                    </button>
+                    <div id="lorenz-description" class="sr-only">This will demonstrate how small differences lead to dramatically different outcomes over time</div>
+                    
+                    <div id="lorenzFeedback" class="feedback-box" role="alert" aria-live="assertive"></div>
+                </div>
+                
+                <div class="key-concept">
+                    <div class="key-concept-title">🦋 The Butterfly Metaphor</div>
+                    <p>"Does the flap of a butterfly's wings in Brazil set off a tornado in Texas?" This isn't about butterflies causing tornadoes—it's about how infinitesimal changes propagate through complex systems to create unpredictable outcomes.</p>
+                </div>
+                
+                <label for="checkpoint1">
+                    <strong>Reflection:</strong> Describe a time when a tiny choice had massive unintended consequences. What made the system chaotic? Could you have predicted the outcome?
+                </label>
+                <textarea id="checkpoint1" 
+                          placeholder="Type your reflection here..."
+                          aria-describedby="checkpoint1-hint"></textarea>
+                <div id="checkpoint1-hint" class="sr-only">Think about decisions where small differences led to major divergence</div>
+                
+                <div class="navigation">
+                    <button onclick="prevModule()" aria-label="Go back to previous module">← Previous</button>
+                    <button onclick="nextModule()" aria-label="Continue to next module: The Ensemble">Next: Ensemble Prediction →</button>
+                </div>
+            </section>
+            
+            <!-- Module 2: The Ensemble -->
+            <section class="module" id="module2" role="region" aria-labelledby="heading2">
+                <h2 id="heading2">Part II: The Ensemble Solution</h2>
+                
+                <p>If tiny differences create massive divergence, how do we make predictions at all?</p>
+                
+                <p>The answer: <strong>Don't run one simulation. Run fifty.</strong></p>
+                
+                <p>This is called <strong>ensemble forecasting</strong>. Instead of trying to find the "perfect" initial conditions (which is impossible in chaos), you run many simulations with slightly different starting points. The spread of outcomes tells you how confident you should be.</p>
+                
+                <div class="interactive-section" role="group" aria-labelledby="ensemble-heading">
+                    <h3 id="ensemble-heading">Interactive: Ensemble Visualization</h3>
+                    <p>Watch 50 parallel simulations from slightly different initial conditions:</p>
+                    
+                    <div class="ensemble-container" 
+                         id="ensembleGrid" 
+                         role="img" 
+                         aria-label="Visualization of 50 parallel simulations showing outcome distribution"></div>
+                    
+                    <div class="button-group">
+                        <button onclick="startEnsemble()" 
+                                class="success" 
+                                id="ensembleBtn"
+                                aria-describedby="ensemble-description">
+                            ▶ Run 50 Parallel Simulations
+                        </button>
+                        <button onclick="resetEnsemble()" 
+                                class="secondary"
+                                aria-label="Reset simulation to initial state">
+                            Reset
+                        </button>
+                    </div>
+                    <div id="ensemble-description" class="sr-only">This will show how multiple simulations reveal the range of possible outcomes</div>
+                    
+                    <div id="ensembleFeedback" 
+                         role="status" 
+                         aria-live="polite" 
+                         style="margin-top: 15px; font-weight: bold; color: #667eea;"></div>
+                </div>
+                
+                <div class="key-concept">
+                    <div class="key-concept-title">📊 Reading the Ensemble</div>
+                    <p><strong>Green dots (clustered):</strong> Most likely outcomes—where the majority of simulations agree.</p>
+                    <p><strong>Red dots (scattered):</strong> Tail risks—low probability but high consequence outcomes that at least some simulations produce.</p>
+                    <p>The ensemble doesn't eliminate uncertainty—it <em>quantifies</em> it. You can see both the most likely future AND the dangerous outliers.</p>
+                </div>
+                
+                <label for="checkpoint2">
+                    <strong>Reflection:</strong> How does running multiple simulations protect against "Butterfly Effect" errors? Why is the spread of outcomes as important as the center?
+                </label>
+                <textarea id="checkpoint2" 
+                          placeholder="Type your reflection here..."
+                          aria-describedby="checkpoint2-hint"></textarea>
+                <div id="checkpoint2-hint" class="sr-only">Consider how ensemble thinking changes decision-making under uncertainty</div>
+                
+                <div class="navigation">
+                    <button onclick="prevModule()" aria-label="Go back to previous module">← Previous</button>
+                    <button onclick="nextModule()" aria-label="Continue to next module: Ethical Ensembles">Next: Ethical Ensembles →</button>
+                </div>
+            </section>
+            
+            <!-- Module 3: Ethical Ensembles -->
+            <section class="module" id="module3" role="region" aria-labelledby="heading3">
+                <h2 id="heading3">Part III: Ethical Ensembles</h2>
+                
+                <p>Ensemble thinking isn't just for weather. It's a framework for <strong>ethical decision-making under uncertainty</strong>.</p>
+                
+                <p>When you make a moral choice, you're not just picking an action—you're selecting from a probability distribution of futures. Single-path thinking (traditional consequentialism) assumes you can predict "the" outcome. Ensemble ethics recognizes you're choosing a <em>distribution</em> of outcomes.</p>
+                
+                <h3>The Single-Path Error</h3>
+                
+                <div class="decision-comparison">
+                    <div class="decision-card single" role="article" aria-label="Example of single-path thinking">
+                        <h4>❌ Single-Path Thinking</h4>
+                        <p><strong>Decision:</strong> "If I lie on my resume, I'll get the job and everything will be fine."</p>
+                        <p style="margin-top: 15px;"><strong>Problem:</strong> This assumes ONE future trajectory. It ignores the ensemble of possibilities.</p>
+                    </div>
+                    
+                    <div class="decision-card ensemble" role="article" aria-label="Example of ensemble thinking">
+                        <h4>✅ Ensemble Thinking</h4>
+                        <p><strong>Run the ensemble:</strong></p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>Sim 1 (30%):</strong> Get job, perform well, lie never discovered</li>
+                            <li><strong>Sim 2 (25%):</strong> Caught in background check, fired</li>
+                            <li><strong>Sim 3 (25%):</strong> Get job but live in constant anxiety about exposure</li>
+                            <li><strong>Sim 4 (20%):</strong> Promotion requires higher clearance; lie discovered years later, career destroyed</li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>Result:</strong> 70% of simulations involve negative outcomes. The "tail risk" (Sim 4) is catastrophic.</p>
                     </div>
                 </div>
-                <button onclick="runLorenz()" style="width:100%; margin-top:10px;">Run Simulation</button>
-                <div id="lorenzFeedback" class="key-concept" style="display:none; margin-top:15px;"></div>
-            </div>
-            <textarea id="checkpoint1" placeholder="Describe a time a tiny choice had a massive unintended consequence."></textarea>
-            <div class="navigation">
-                <button onclick="prevModule()">← Previous</button>
-                <button onclick="nextModule()">Next: Ensemble Prediction →</button>
-            </div>
-        </section>
-
-        <section class="module" id="module2">
-            <h2>Part II: The Ensemble</h2>
-            <p>Don't run one simulation. Run fifty.</p>
-            <div class="interactive-section">
-                <div class="ensemble-container" id="ensembleGrid"></div>
-                <button onclick="startEnsemble()" class="success">▶ Run 50 Simulations</button>
-                <button onclick="resetEnsemble()">Reset</button>
-                <div id="ensembleFeedback" style="margin-top:10px; font-weight:bold;"></div>
-            </div>
-            <textarea id="checkpoint2" placeholder="How does running multiple simulations protect against 'Butterfly Effect' errors?"></textarea>
-            <div class="navigation">
-                <button onclick="prevModule()">← Previous</button>
-                <button onclick="nextModule()">Next: Ethical Ensembles →</button>
-            </div>
-        </section>
-
-        <section class="module" id="module3">
-            <h2>Part III: Ethical Ensembles</h2>
-            <div class="decision-comparison">
-                <div class="decision-card single">
-                    <h4>Single-Path Error</h4>
-                    <p>"If I lie on my resume, I'll get the job and everything will be fine."</p>
+                
+                <div class="key-concept">
+                    <div class="key-concept-title">⚖️ Ensemble Ethics Framework</div>
+                    <p><strong>Step 1:</strong> Identify the decision</p>
+                    <p><strong>Step 2:</strong> Run mental simulations with different assumptions ("What if X finds out?" "What if my values change?" "What if the context shifts?")</p>
+                    <p><strong>Step 3:</strong> Map the distribution: Which outcomes cluster? Which are outliers?</p>
+                    <p><strong>Step 4:</strong> Ask: "Can I accept the tail risks?" Not just "What's the most likely outcome?"</p>
                 </div>
-                <div class="decision-card ensemble">
-                    <h4>Ensemble View</h4>
-                    <p>Sim 1: Get job.<br>Sim 2: Caught in background check.<br>Sim 3: Get job but live in constant anxiety.<br>Sim 4: Promotion requires higher clearance; lie is found then.</p>
+                
+                <label for="checkpoint3">
+                    <strong>Application Exercise:</strong> Perform an ensemble check on a real decision you're currently facing. Describe at least 4 different plausible futures that could result from your choice. What tail risks exist?
+                </label>
+                <textarea id="checkpoint3" 
+                          placeholder="Type your ensemble analysis here..."
+                          aria-describedby="checkpoint3-hint"
+                          style="min-height: 160px;"></textarea>
+                <div id="checkpoint3-hint" class="sr-only">Try to identify both likely outcomes and low-probability but high-impact scenarios</div>
+                
+                <div class="navigation">
+                    <button onclick="prevModule()" aria-label="Go back to previous module">← Previous</button>
+                    <button onclick="nextModule()" aria-label="Continue to next module: Doubt and Robustness">Next: Doubt as Precision →</button>
                 </div>
-            </div>
-            <textarea id="checkpoint3" placeholder="Perform an ensemble check on a decision you are currently facing."></textarea>
-            <div class="navigation">
-                <button onclick="prevModule()">← Previous</button>
-                <button onclick="nextModule()">Next: Doubt & Robustness →</button>
-            </div>
-        </section>
-
-        <section class="module" id="module4">
-            <h2>Part IV: Doubt as Precision</h2>
-            <div class="interactive-section">
-                <h3>The Cone of Uncertainty</h3>
-                <div style="margin-bottom:10px;">
-                    <button onclick="updateCone('tight')">High Agreement</button>
-                    <button onclick="updateCone('wide')" class="danger">High Chaos</button>
+            </section>
+            
+            <!-- Module 4: Doubt as Precision -->
+            <section class="module" id="module4" role="region" aria-labelledby="heading4">
+                <h2 id="heading4">Part IV: Doubt as Precision</h2>
+                
+                <p>We typically treat doubt as a weakness: "They're uncertain, so they're unreliable." But in complex systems, doubt is <strong>precision</strong>.</p>
+                
+                <p>When a weather forecaster says "70% chance of rain," they're not being wishy-washy—they're giving you the <em>shape of the ensemble</em>. When 70% of simulations produce rain, that's what you should hear.</p>
+                
+                <div class="interactive-section" role="group" aria-labelledby="cone-heading">
+                    <h3 id="cone-heading">The Cone of Uncertainty</h3>
+                    <p>Meteorologists visualize forecast uncertainty as a cone. The wider the cone, the more the ensemble members disagree. This isn't a defect—it's <em>information</em>.</p>
+                    
+                    <div class="button-group">
+                        <button onclick="updateCone('tight')" 
+                                class="success"
+                                aria-describedby="tight-cone-desc">
+                            Show High Agreement (Tight Cone)
+                        </button>
+                        <button onclick="updateCone('wide')" 
+                                class="danger"
+                                aria-describedby="wide-cone-desc">
+                            Show High Chaos (Wide Cone)
+                        </button>
+                    </div>
+                    <div id="tight-cone-desc" class="sr-only">Models agree closely, indicating low uncertainty</div>
+                    <div id="wide-cone-desc" class="sr-only">Models diverge widely, indicating high uncertainty</div>
+                    
+                    <div class="cone-display" role="img" aria-label="Cone of uncertainty visualization">
+                        <div id="coneShape" class="cone-shape"></div>
+                    </div>
+                    
+                    <div id="coneFeedback" class="key-concept" style="margin-top: 20px;">
+                        <div class="key-concept-title">🎯 Interpreting the Cone</div>
+                        <p>Click the buttons above to see how model agreement affects decision-making.</p>
+                    </div>
                 </div>
-                <div class="cone-display"><div id="coneShape" class="cone-shape"></div></div>
-                <div id="coneFeedback" class="key-concept" style="margin-top:15px;">Doubt is not a lack of knowledge; it is an accurate measurement of system instability.</div>
-            </div>
-            <textarea id="checkpoint4" placeholder="Would you rather have a leader who is 100% certain or one who understands the cone of uncertainty?"></textarea>
-            <div class="navigation">
-                <button onclick="prevModule()">← Previous</button>
-                <button onclick="nextModule()">Next: Pre-Mortem Tool →</button>
-            </div>
-        </section>
-
-        <section class="module" id="module5">
-            <h2>Part V: The Pre-Mortem</h2>
-            <div class="interactive-section">
-                <p>Assume your current plan has <strong>already failed</strong>. Work backward to see how.</p>
-                <textarea id="pmPlan" placeholder="What is your plan?"></textarea>
-                <textarea id="pmFailure" placeholder="Describe the spectacular failure (Assume it happened)."></textarea>
-                <textarea id="pmHistory" placeholder="Trace the causal chain backward from the failure to today."></textarea>
-                <button onclick="completePremortem()" class="success" style="width:100%">Analyze Pre-Mortem</button>
-                <div id="premortemResult" class="key-concept" style="display:none; margin-top:15px;"></div>
-            </div>
-            <div class="navigation">
-                <button onclick="prevModule()">← Previous</button>
-                <button onclick="location.reload()" class="primary">Start Over</button>
-            </div>
-        </section>
+                
+                <div class="key-concept">
+                    <div class="key-concept-title">💡 Epistemic Humility</div>
+                    <p>Doubt is not "I don't know anything." It's "I know the shape of what I don't know."</p>
+                    <p>A tight cone means: <strong>"Act decisively—the futures converge."</strong></p>
+                    <p>A wide cone means: <strong>"Preserve options—the futures diverge wildly."</strong></p>
+                    <p>Both are valuable information. Neither is weakness.</p>
+                </div>
+                
+                <label for="checkpoint4">
+                    <strong>Critical Thinking:</strong> Would you rather have a leader who is 100% certain (but potentially wrong), or one who understands and communicates the cone of uncertainty? Why?
+                </label>
+                <textarea id="checkpoint4" 
+                          placeholder="Type your reflection here..."
+                          aria-describedby="checkpoint4-hint"></textarea>
+                <div id="checkpoint4-hint" class="sr-only">Consider both the psychological comfort of certainty and the practical value of accurate uncertainty assessment</div>
+                
+                <div class="navigation">
+                    <button onclick="prevModule()" aria-label="Go back to previous module">← Previous</button>
+                    <button onclick="nextModule()" aria-label="Continue to final module: Pre-Mortem Tool">Next: Pre-Mortem Tool →</button>
+                </div>
+            </section>
+            
+            <!-- Module 5: Pre-Mortem -->
+            <section class="module" id="module5" role="region" aria-labelledby="heading5">
+                <h2 id="heading5">Part V: The Pre-Mortem Tool</h2>
+                
+                <p>A <strong>pre-mortem</strong> is an ensemble technique in reverse. Instead of asking "What could go right?", you assume your plan has <em>already failed spectacularly</em> and work backward to figure out why.</p>
+                
+                <p>This forces you to explore the tail-risk simulations that optimistic single-path thinking ignores.</p>
+                
+                <div class="key-concept">
+                    <div class="key-concept-title">🔍 How the Pre-Mortem Works</div>
+                    <p><strong>Traditional planning:</strong> "Here's our plan. Let's implement it and hope it works."</p>
+                    <p><strong>Pre-mortem planning:</strong> "Imagine it's one year from now and our plan failed catastrophically. What happened?"</p>
+                    <p>By assuming failure, you bypass confirmation bias and force yourself to run the dark simulations.</p>
+                </div>
+                
+                <div class="interactive-section" role="group" aria-labelledby="premortem-heading">
+                    <h3 id="premortem-heading">Your Pre-Mortem Analysis</h3>
+                    <p>Walk through the three steps below to perform a pre-mortem on a current plan or decision:</p>
+                    
+                    <div class="premortem-grid">
+                        <div class="premortem-step">
+                            <h4>Step 1: Your Plan</h4>
+                            <label for="pmPlan" class="sr-only">Describe your current plan or decision</label>
+                            <textarea id="pmPlan" 
+                                      placeholder="What are you planning to do? Be specific..."
+                                      aria-describedby="pmPlan-hint"></textarea>
+                            <div id="pmPlan-hint" class="sr-only">This could be a career decision, project plan, or personal goal</div>
+                        </div>
+                        
+                        <div class="premortem-step">
+                            <h4>Step 2: The Spectacular Failure</h4>
+                            <label for="pmFailure" class="sr-only">Describe the failure scenario</label>
+                            <textarea id="pmFailure" 
+                                      placeholder="Assume this plan failed catastrophically. Describe the failure in vivid detail. What went wrong?"
+                                      aria-describedby="pmFailure-hint"></textarea>
+                            <div id="pmFailure-hint" class="sr-only">Don't hold back - imagine the worst plausible outcome</div>
+                        </div>
+                        
+                        <div class="premortem-step">
+                            <h4>Step 3: The Causal Chain</h4>
+                            <label for="pmHistory" class="sr-only">Trace the path from today to failure</label>
+                            <textarea id="pmHistory" 
+                                      placeholder="Work backward: What sequence of events led from today to this failure? What early warning signs did we miss?"
+                                      aria-describedby="pmHistory-hint"></textarea>
+                            <div id="pmHistory-hint" class="sr-only">Identify the butterfly flaps - the small decisions that led to catastrophe</div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="completePremortem()" 
+                            class="success" 
+                            id="premortemBtn"
+                            style="width: 100%; margin-top: 20px;"
+                            aria-describedby="premortem-action-desc">
+                        📋 Complete Pre-Mortem Analysis
+                    </button>
+                    <div id="premortem-action-desc" class="sr-only">This will analyze your pre-mortem and provide insights</div>
+                    
+                    <div id="premortemResult" class="feedback-box" role="alert" aria-live="assertive"></div>
+                </div>
+                
+                <div class="key-concept">
+                    <div class="key-concept-title">🛡️ Making Decisions Robust</div>
+                    <p>The pre-mortem doesn't tell you not to act. It tells you <em>which simulations to defend against</em>.</p>
+                    <p>Once you've identified the failure modes, you can either:</p>
+                    <ul style="margin-left: 25px; margin-top: 10px;">
+                        <li><strong>Redesign the plan</strong> to avoid those pathways</li>
+                        <li><strong>Install tripwires</strong> (early warning systems) to detect when you're entering a failure simulation</li>
+                        <li><strong>Accept the risk</strong> with full knowledge of what you're betting on</li>
+                    </ul>
+                    <p style="margin-top: 15px;">This is how you move from fragile (breaks under stress) to robust (withstands the tail risks).</p>
+                </div>
+                
+                <div class="navigation">
+                    <button onclick="prevModule()" aria-label="Go back to previous module">← Previous</button>
+                    <button onclick="location.reload()" 
+                            class="success"
+                            aria-label="Restart the course from the beginning">
+                        🔄 Start Over
+                    </button>
+                </div>
+            </section>
+        </div>
     </div>
-
+    
     <script>
         let currentModule = 0;
         const totalModules = 6;
-
+        
+        // Progress tracking
         function updateProgress() {
             const progress = Math.round((currentModule / (totalModules - 1)) * 100);
-            document.getElementById('progressFill').style.width = progress + '%';
-            document.getElementById('progressFill').textContent = progress + '%';
-        }
-
-        function nextModule() {
-            document.getElementById('module' + currentModule).classList.remove('active');
-            currentModule++;
-            document.getElementById('module' + currentModule).classList.add('active');
-            updateProgress();
-            window.scrollTo(0, 0);
-        }
-
-        function prevModule() {
-            document.getElementById('module' + currentModule).classList.remove('active');
-            currentModule--;
-            document.getElementById('module' + currentModule).classList.add('active');
-            updateProgress();
-            window.scrollTo(0, 0);
-        }
-
-        // Part I: Lorenz
-        function runLorenz() {
-            const fb = document.getElementById('lorenzFeedback');
-            fb.style.display = 'block';
-            fb.innerHTML = "Simulating divergence...";
+            const fill = document.getElementById('progressFill');
+            const text = document.getElementById('progressText');
+            const progressBar = document.querySelector('.progress-bar');
             
-            setTimeout(() => {
-                document.getElementById('iconOrig').textContent = "☁️";
-                document.getElementById('iconRound').textContent = "⛅";
-                document.getElementById('textOrig').textContent = "Day 3: Overcast";
-                document.getElementById('textRound').textContent = "Day 3: Cloudy intervals";
-            }, 1000);
-
-            setTimeout(() => {
-                document.getElementById('iconOrig').textContent = "🌧️";
-                document.getElementById('iconRound').textContent = "☀️";
-                document.getElementById('textOrig').textContent = "Day 7: Storm";
-                document.getElementById('textRound').textContent = "Day 7: Clear & Sunny";
-                fb.innerHTML = "<strong>Result:</strong> A 0.0001 difference led to opposite weather. Determinism is dead.";
-            }, 2500);
+            fill.style.width = progress + '%';
+            text.textContent = progress + '%';
+            progressBar.setAttribute('aria-valuenow', progress);
         }
-
-        // Part II: Ensemble Dots
+        
+        // Navigation functions
+        function nextModule() {
+            if (currentModule < totalModules - 1) {
+                document.getElementById('module' + currentModule).classList.remove('active');
+                currentModule++;
+                document.getElementById('module' + currentModule).classList.add('active');
+                updateProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Announce to screen readers
+                announceModule();
+            }
+        }
+        
+        function prevModule() {
+            if (currentModule > 0) {
+                document.getElementById('module' + currentModule).classList.remove('active');
+                currentModule--;
+                document.getElementById('module' + currentModule).classList.add('active');
+                updateProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Announce to screen readers
+                announceModule();
+            }
+        }
+        
+        function announceModule() {
+            const heading = document.querySelector(`#module${currentModule} h2`);
+            if (heading) {
+                // Create temporary live region for announcement
+                const announcement = document.createElement('div');
+                announcement.setAttribute('role', 'status');
+                announcement.setAttribute('aria-live', 'polite');
+                announcement.className = 'sr-only';
+                announcement.textContent = `Now viewing: ${heading.textContent}`;
+                document.body.appendChild(announcement);
+                
+                setTimeout(() => document.body.removeChild(announcement), 1000);
+            }
+        }
+        
+        // Module 1: Lorenz Simulation
+        function runLorenz() {
+            const btn = document.getElementById('lorenzBtn');
+            const fb = document.getElementById('lorenzFeedback');
+            
+            btn.disabled = true;
+            btn.textContent = '⏳ Simulating...';
+            
+            fb.classList.add('show');
+            fb.innerHTML = '<span class="loading">Calculating weather trajectories...</span>';
+            
+            // Day 3 divergence
+            setTimeout(() => {
+                document.getElementById('iconOrig').textContent = '☁️';
+                document.getElementById('iconRound').textContent = '⛅';
+                document.getElementById('textOrig').textContent = 'Day 3: Overcast';
+                document.getElementById('textRound').textContent = 'Day 3: Partly cloudy';
+                fb.innerHTML = '<strong>Day 3:</strong> Slight divergence beginning...';
+            }, 1200);
+            
+            // Day 7 major divergence
+            setTimeout(() => {
+                document.getElementById('iconOrig').textContent = '🌧️';
+                document.getElementById('iconRound').textContent = '☀️';
+                document.getElementById('textOrig').textContent = 'Day 7: Severe storm';
+                document.getElementById('textRound').textContent = 'Day 7: Clear and sunny';
+                fb.innerHTML = '<strong>Result:</strong> A 0.000127 difference led to <em>opposite weather outcomes</em>. Tiny changes → massive divergence. This is deterministic chaos.';
+                btn.disabled = false;
+                btn.textContent = '↻ Run Again';
+            }, 3000);
+        }
+        
+        // Module 2: Ensemble Simulation
         function initializeEnsemble() {
             const container = document.getElementById('ensembleGrid');
             container.innerHTML = '';
+            container.setAttribute('aria-label', 'Ensemble simulation showing 50 dots in starting position');
+            
             for (let i = 0; i < 50; i++) {
                 const dot = document.createElement('div');
                 dot.className = 'simulation-dot';
                 dot.id = 'dot' + i;
+                dot.setAttribute('role', 'presentation');
                 container.appendChild(dot);
             }
         }
-
+        
         function startEnsemble() {
             const fb = document.getElementById('ensembleFeedback');
-            fb.textContent = "Processing 50 parallel futures...";
+            const btn = document.getElementById('ensembleBtn');
+            const container = document.getElementById('ensembleGrid');
             
-            for (let i = 0; i < 50; i++) {
-                const dot = document.getElementById('dot' + i);
-                // Randomly scatter dots across the container
-                const x = (Math.random() - 0.5) * 250; // Random X spread
-                const y = (Math.random() - 0.5) * 200; // Random Y spread
-                const isScatter = Math.random() > 0.6;
-                
-                dot.style.transform = `translate(${x}px, ${y}px)`;
-                if (isScatter) {
-                    dot.style.background = "var(--danger)";
-                } else {
-                    dot.style.background = "var(--success)";
-                }
-            }
-
+            btn.disabled = true;
+            fb.textContent = 'Running 50 parallel simulations...';
+            
             setTimeout(() => {
-                fb.textContent = "Result: The 'Most Likely' outcome is Green, but Tail Risks (Red) are mathematically present.";
-            }, 1500);
+                for (let i = 0; i < 50; i++) {
+                    const dot = document.getElementById('dot' + i);
+                    
+                    // Create clustered center (most likely) and scattered tail risks
+                    const isCenter = Math.random() > 0.3; // 70% cluster in center
+                    
+                    let x, y;
+                    if (isCenter) {
+                        // Cluster around center (green - most likely)
+                        x = (Math.random() - 0.5) * 120;
+                        y = (Math.random() - 0.5) * 100;
+                        dot.style.background = '#48bb78';
+                    } else {
+                        // Scatter widely (red - tail risks)
+                        x = (Math.random() - 0.5) * 320;
+                        y = (Math.random() - 0.5) * 250;
+                        dot.style.background = '#f56565';
+                    }
+                    
+                    dot.style.transform = `translate(${x}px, ${y}px)`;
+                }
+                
+                container.setAttribute('aria-label', 'Ensemble simulation complete: green dots show most likely outcomes, red dots show tail risks');
+            }, 100);
+            
+            setTimeout(() => {
+                fb.innerHTML = '<strong>Ensemble Complete:</strong> Green dots (clustered) = Most likely outcomes. Red dots (scattered) = Tail risks. The spread shows your uncertainty.';
+                btn.disabled = false;
+            }, 2000);
         }
-
+        
         function resetEnsemble() {
             initializeEnsemble();
-            document.getElementById('ensembleFeedback').textContent = "";
+            document.getElementById('ensembleFeedback').textContent = '';
+            document.getElementById('ensembleBtn').disabled = false;
         }
-
-        // Part IV: Cone
+        
+        // Module 4: Cone of Uncertainty
         function updateCone(type) {
             const shape = document.getElementById('coneShape');
             const fb = document.getElementById('coneFeedback');
+            const display = document.querySelector('.cone-display');
+            
             if (type === 'tight') {
-                shape.className = "cone-shape cone-tight";
-                fb.innerHTML = "<strong>Tight Cone:</strong> Models agree. Uncertainty is low. Decisive action is safer.";
+                shape.className = 'cone-shape cone-tight';
+                display.setAttribute('aria-label', 'Narrow cone showing high model agreement');
+                fb.innerHTML = `
+                    <div class="key-concept-title">✅ Tight Cone: High Agreement</div>
+                    <p><strong>Meaning:</strong> The ensemble models agree closely. Uncertainty is low.</p>
+                    <p><strong>Decision implication:</strong> Decisive action is safer. The futures converge. You can commit resources without excessive hedging.</p>
+                    <p><strong>Example:</strong> "90% of simulations show success" → Act confidently.</p>
+                `;
             } else {
-                shape.className = "cone-shape cone-wide";
-                fb.innerHTML = "<strong>Wide Cone:</strong> Models diverge wildly. Uncertainty is high. Decision should focus on preserving options.";
+                shape.className = 'cone-shape cone-wide';
+                display.setAttribute('aria-label', 'Wide cone showing high model divergence');
+                fb.innerHTML = `
+                    <div class="key-concept-title">⚠️ Wide Cone: High Chaos</div>
+                    <p><strong>Meaning:</strong> The ensemble models diverge wildly. Uncertainty is high.</p>
+                    <p><strong>Decision implication:</strong> Preserve options. The futures scatter. Don't commit irreversibly—maintain flexibility.</p>
+                    <p><strong>Example:</strong> "Outcomes range from total success to catastrophic failure" → Design for robustness, not optimization.</p>
+                `;
             }
         }
-
-        // Part V: Pre-Mortem
+        
+        // Module 5: Pre-Mortem
         function completePremortem() {
-            const res = document.getElementById('premortemResult');
-            res.style.display = "block";
-            res.innerHTML = "<strong>Analysis Complete:</strong> You have successfully identified the 'Butterfly Flaps' that lead to failure. By making the invisible cost visible, your decision is now robust.";
+            const plan = document.getElementById('pmPlan').value.trim();
+            const failure = document.getElementById('pmFailure').value.trim();
+            const history = document.getElementById('pmHistory').value.trim();
+            const result = document.getElementById('premortemResult');
+            const btn = document.getElementById('premortemBtn');
+            
+            if (!plan || !failure || !history) {
+                result.classList.add('show');
+                result.style.background = 'linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%)';
+                result.style.borderColor = '#f56565';
+                result.innerHTML = '<strong>⚠️ Incomplete Analysis:</strong> Please fill in all three sections to perform a complete pre-mortem.';
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.textContent = '⏳ Analyzing...';
+            
+            setTimeout(() => {
+                result.classList.add('show');
+                result.style.background = 'linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%)';
+                result.style.borderColor = '#48bb78';
+                result.innerHTML = `
+                    <div style="margin-bottom: 15px;"><strong>✅ Pre-Mortem Analysis Complete</strong></div>
+                    <p><strong>What you've accomplished:</strong></p>
+                    <ul style="margin-left: 25px; margin-top: 10px;">
+                        <li>Identified <strong>failure modes</strong> that optimistic planning would miss</li>
+                        <li>Traced the <strong>causal chain</strong> from small decisions to catastrophe</li>
+                        <li>Made the <strong>invisible costs visible</strong> before committing resources</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Next steps:</strong></p>
+                    <ul style="margin-left: 25px; margin-top: 5px;">
+                        <li>Can you redesign your plan to avoid these failure pathways?</li>
+                        <li>Can you install early warning tripwires to detect when you're entering a bad simulation?</li>
+                        <li>If you proceed anyway, you're doing so with full knowledge of the tail risks.</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><em>This is how you move from fragile to robust.</em></p>
+                `;
+                btn.disabled = false;
+                btn.textContent = '✓ Analysis Complete';
+            }, 1500);
         }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            // Alt + Right Arrow = Next
+            if (e.altKey && e.key === 'ArrowRight') {
+                e.preventDefault();
+                if (currentModule < totalModules - 1) {
+                    nextModule();
+                }
+            }
+            // Alt + Left Arrow = Previous
+            if (e.altKey && e.key === 'ArrowLeft') {
+                e.preventDefault();
+                if (currentModule > 0) {
+                    prevModule();
+                }
+            }
+        });
+        
+        // Download Reflections Function
+        function downloadReflections() {
+            const date = new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            // Collect all reflection data
+            const reflections = {
+                'Module 0: The Sin of Certainty': {
+                    question: 'Why does certainty feel like a "drug" to the brain? Describe a time when you felt certain about something, only to discover later that the situation was far more complex than you realized.',
+                    answer: document.getElementById('checkpoint0')?.value || '[Not completed]'
+                },
+                'Module 1: The Butterfly Effect': {
+                    question: 'Describe a time when a tiny choice had massive unintended consequences. What made the system chaotic? Could you have predicted the outcome?',
+                    answer: document.getElementById('checkpoint1')?.value || '[Not completed]'
+                },
+                'Module 2: The Ensemble Solution': {
+                    question: 'How does running multiple simulations protect against "Butterfly Effect" errors? Why is the spread of outcomes as important as the center?',
+                    answer: document.getElementById('checkpoint2')?.value || '[Not completed]'
+                },
+                'Module 3: Ethical Ensembles': {
+                    question: 'Perform an ensemble check on a real decision you\'re currently facing. Describe at least 4 different plausible futures that could result from your choice. What tail risks exist?',
+                    answer: document.getElementById('checkpoint3')?.value || '[Not completed]'
+                },
+                'Module 4: Doubt as Precision': {
+                    question: 'Would you rather have a leader who is 100% certain (but potentially wrong), or one who understands and communicates the cone of uncertainty? Why?',
+                    answer: document.getElementById('checkpoint4')?.value || '[Not completed]'
+                },
+                'Module 5: The Pre-Mortem Tool': {
+                    question: 'Pre-Mortem Analysis',
+                    subsections: {
+                        'Your Plan': document.getElementById('pmPlan')?.value || '[Not completed]',
+                        'The Spectacular Failure': document.getElementById('pmFailure')?.value || '[Not completed]',
+                        'The Causal Chain': document.getElementById('pmHistory')?.value || '[Not completed]'
+                    }
+                }
+            };
+            
+            // Format the content
+            let content = `CHAOS, DOUBT, AND MORAL RESPONSIBILITY
+The Ensemble Approach to Ethical Decision-Making
+Reflections completed on: ${date}
 
-        window.onload = () => {
+${'='.repeat(80)}
+
+`;
+            
+            // Add each module's reflection
+            for (const [module, data] of Object.entries(reflections)) {
+                content += `\n${module}\n${'-'.repeat(module.length)}\n\n`;
+                
+                if (data.subsections) {
+                    // Handle Pre-Mortem special case
+                    content += `QUESTION: ${data.question}\n\n`;
+                    for (const [subsection, answer] of Object.entries(data.subsections)) {
+                        content += `${subsection}:\n${answer}\n\n`;
+                    }
+                } else {
+                    content += `QUESTION:\n${data.question}\n\n`;
+                    content += `YOUR REFLECTION:\n${data.answer}\n\n`;
+                }
+                
+                content += `${'-'.repeat(80)}\n`;
+            }
+            
+            content += `\n\nEND OF REFLECTIONS\n`;
+            content += `This document contains your personal reflections from the "Chaos, Doubt, and Moral Responsibility" learning module.\n`;
+            content += `These reflections demonstrate your engagement with ensemble thinking and ethical decision-making under uncertainty.\n`;
+            
+            // Create blob and download
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `chaos_doubt_reflections_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            // Visual feedback
+            const btn = document.querySelector('.download-button');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = '<span class="download-icon" aria-hidden="true">✓</span><span>Downloaded!</span>';
+            btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            
+            setTimeout(() => {
+                btn.innerHTML = originalContent;
+                btn.style.background = 'linear-gradient(135deg, #48bb78 0%, #38a169 100%)';
+            }, 2000);
+        }
+        
+        // Initialize on load
+        window.addEventListener('load', function() {
             initializeEnsemble();
             updateProgress();
-        };
+            
+            // Announce keyboard shortcuts to screen reader users
+            console.log('Keyboard shortcuts: Alt + Right Arrow = Next module, Alt + Left Arrow = Previous module');
+        });
     </script>
 </body>
 </html>
