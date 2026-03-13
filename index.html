@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chaos, Doubt, and Moral Responsibility - The Ensemble Approach</title>
+    <title>Chaos, Doubt, and Moral Responsibility - PRF Personalized</title>
     <style>
         * {
             margin: 0;
@@ -63,47 +63,150 @@
             font-weight: 300;
         }
         
-        /* Download Button */
-        .download-button {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1000;
-            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-            color: white;
-            border: none;
-            padding: 16px 24px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1em;
-            box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
-            transition: all 0.3s ease;
+        /* PRF Profile Card */
+        .prf-profile-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 3px solid #667eea;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 40px;
+            display: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .prf-profile-card.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .prf-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         
-        .download-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.5);
+        .prf-name {
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: bold;
         }
         
-        .download-button:active {
-            transform: translateY(-1px);
+        .prf-dominant {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
         }
         
-        .download-button:focus {
-            outline: 3px solid #48bb78;
-            outline-offset: 3px;
+        .prf-foundations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
         }
         
-        .download-icon {
-            font-size: 1.2em;
+        .foundation-item {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
         }
         
+        .foundation-name {
+            font-weight: bold;
+            color: #555;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+        
+        .foundation-value {
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .prf-warnings {
+            background: #fff3cd;
+            border-left: 6px solid #f39c12;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .prf-warnings h4 {
+            color: #f39c12;
+            margin-bottom: 10px;
+        }
+        
+        .prf-warnings ul {
+            margin-left: 20px;
+        }
+        
+        .prf-warnings li {
+            margin: 8px 0;
+        }
+        
+        /* Upload Section */
+        .upload-section {
+            padding: 40px;
+            text-align: center;
+            display: block;
+        }
+        
+        .upload-section.hidden {
+            display: none;
+        }
+        
+        .upload-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 3px dashed #667eea;
+            border-radius: 12px;
+            padding: 60px 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-box:hover {
+            border-color: #764ba2;
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+        }
+        
+        .upload-box h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .upload-box p {
+            color: #555;
+            margin: 10px 0;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .upload-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        
+        /* Content Area */
         .content {
             padding: 40px;
+            display: none;
+        }
+        
+        .content.active {
+            display: block;
         }
         
         .progress-bar {
@@ -120,7 +223,6 @@
             height: 100%;
             width: 0%;
             transition: width 0.5s ease;
-            position: relative;
         }
         
         .progress-text {
@@ -202,6 +304,65 @@
             margin-bottom: 10px;
         }
         
+        /* PRF-Specific Warnings */
+        .prf-warning {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+            border-left: 6px solid #f56565;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+        
+        .prf-warning-title {
+            font-weight: bold;
+            color: #f56565;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        .blind-spot-detector {
+            background: linear-gradient(135deg, #fef5e7 0%, #fdebd0 100%);
+            border: 3px solid #f39c12;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .blind-spot-title {
+            color: #f39c12;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .simulation-list {
+            margin: 15px 0;
+        }
+        
+        .simulation-item {
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .simulation-item.natural {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        
+        .simulation-item.missing {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .simulation-icon {
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+        
         .interactive-section {
             background: #f8f9fa;
             border: 2px solid #e0e0e0;
@@ -210,7 +371,7 @@
             margin: 25px 0;
         }
         
-        /* Weather Comparison */
+        /* Weather Grid */
         .weather-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -454,12 +615,7 @@
             animation: slideIn 0.3s ease;
         }
         
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        /* Pre-mortem specific */
+        /* Pre-mortem Grid */
         .premortem-grid {
             display: grid;
             gap: 20px;
@@ -478,7 +634,41 @@
             margin-top: 0;
         }
         
-        /* Screen reader only text */
+        /* Download Button */
+        .download-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+            transition: all 0.3s ease;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .download-button.active {
+            display: flex;
+        }
+        
+        .download-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.5);
+        }
+        
+        .download-icon {
+            font-size: 1.2em;
+        }
+        
+        /* Screen reader only */
         .sr-only {
             position: absolute;
             width: 1px;
@@ -491,7 +681,7 @@
             border: 0;
         }
         
-        /* Loading animation */
+        /* Loading */
         .loading {
             display: inline-block;
             animation: pulse 1.5s ease-in-out infinite;
@@ -508,8 +698,12 @@
                 font-size: 2em;
             }
             
-            .content {
+            .content, .upload-section {
                 padding: 20px;
+            }
+            
+            .prf-profile-card {
+                margin: 20px;
             }
             
             .weather-grid,
@@ -533,7 +727,6 @@
                 width: 100%;
             }
             
-            /* Download button mobile adjustments */
             .download-button {
                 bottom: 20px;
                 right: 20px;
@@ -548,19 +741,15 @@
             .download-button .download-icon {
                 font-size: 1.5em;
             }
+            
+            .prf-foundations {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
         
-        /* Focus visible for keyboard navigation */
         *:focus-visible {
             outline: 3px solid #667eea;
             outline-offset: 2px;
-        }
-        
-        /* High contrast mode support */
-        @media (prefers-contrast: high) {
-            button {
-                border: 2px solid currentColor;
-            }
         }
     </style>
 </head>
@@ -568,19 +757,56 @@
     <div class="container">
         <div class="header">
             <h1>Chaos, Doubt, and Moral Responsibility</h1>
-            <p>The Ensemble Approach to Ethical Decision-Making</p>
+            <p>PRF-Personalized Ensemble Approach</p>
         </div>
         
-        <!-- Floating Download Button -->
+        <!-- Upload Section -->
+        <section class="upload-section" id="uploadSection">
+            <div class="upload-box" onclick="document.getElementById('prfFileInput').click()">
+                <div class="upload-icon" aria-hidden="true">📊</div>
+                <h2>Upload Your PRF-22 Results</h2>
+                <p>To personalize this learning experience, upload your PRF-22 digital e-twin JSON file.</p>
+                <p style="font-size: 0.9em; color: #888; margin-top: 20px;">Click anywhere in this box to select your file</p>
+                <input type="file" 
+                       id="prfFileInput" 
+                       class="file-input" 
+                       accept=".json"
+                       aria-label="Upload PRF-22 JSON file">
+            </div>
+            
+            <button onclick="skipPersonalization()" 
+                    style="margin-top: 20px;"
+                    class="secondary">
+                Skip Personalization (Use Generic Version)
+            </button>
+        </section>
+        
+        <!-- PRF Profile Card -->
+        <div class="prf-profile-card" id="prfProfileCard">
+            <div class="prf-header">
+                <div class="prf-name" id="prfName">Loading...</div>
+                <div class="prf-dominant" id="prfDominant">Loading...</div>
+            </div>
+            
+            <div class="prf-foundations" id="prfFoundations"></div>
+            
+            <div class="prf-warnings">
+                <h4>⚠️ Your Certainty Bias Pattern</h4>
+                <ul id="prfWarningsList"></ul>
+            </div>
+        </div>
+        
+        <!-- Download Button -->
         <button class="download-button" 
+                id="downloadButton"
                 onclick="downloadReflections()"
-                aria-label="Download your reflections as a text file"
-                title="Download all your reflections">
+                aria-label="Download your reflections">
             <span class="download-icon" aria-hidden="true">📥</span>
-            <span>Download My Reflections</span>
+            <span>Download Reflections</span>
         </button>
         
-        <div class="content">
+        <!-- Main Content -->
+        <div class="content" id="mainContent">
             <!-- Progress Bar -->
             <div role="progressbar" 
                  aria-valuenow="0" 
@@ -596,30 +822,22 @@
             <section class="module active" id="module0" role="region" aria-labelledby="heading0">
                 <h2 id="heading0">Introduction: The Sin of Certainty</h2>
                 
-                <div class="learning-objective" role="complementary" aria-label="Learning objective">
+                <div class="learning-objective" role="complementary">
                     <strong>Learning Objective:</strong> Understand that certainty is a premature termination of computation. In complex systems, being "sure" is often a biological shortcut, not an ethical strength.
                 </div>
                 
-                <p>The brain craves certainty because it is <strong>metabolically cheap</strong>. Doubting requires energy—it keeps neural networks active, running parallel simulations, evaluating counterfactuals. This is why certainty feels like relief: your prefrontal cortex gets to rest.</p>
+                <div id="module0Content"></div>
                 
-                <p>However, in chaotic systems (which includes most real-world ethical decisions), certainty is mathematically equivalent to blindness. When you declare "I'm absolutely sure," you're not demonstrating strength—you're announcing that you've stopped computing.</p>
-                
-                <div class="key-concept">
-                    <div class="key-concept-title">🔑 Key Insight</div>
-                    <p>Doubt is not a character flaw. It is an accurate measurement of system complexity. The most ethical agents are those who can tolerate uncertainty long enough to run the simulations.</p>
-                </div>
+                <div id="module0PRFWarning"></div>
                 
                 <label for="checkpoint0">
-                    <strong>Reflection:</strong> Why does certainty feel like a "drug" to the brain? Describe a time when you felt certain about something, only to discover later that the situation was far more complex than you realized.
+                    <strong>Reflection:</strong> <span id="checkpoint0Question"></span>
                 </label>
-                <textarea id="checkpoint0" 
-                          aria-describedby="checkpoint0-hint"
-                          placeholder="Type your reflection here..."></textarea>
-                <div id="checkpoint0-hint" class="sr-only">This reflection will help you recognize certainty bias in your own thinking</div>
+                <textarea id="checkpoint0" placeholder="Type your reflection here..."></textarea>
                 
                 <div class="navigation">
-                    <button disabled aria-label="Previous module (disabled, this is the first module)">← Previous</button>
-                    <button onclick="nextModule()" aria-label="Continue to next module: The Butterfly Effect">Next: Butterfly Effect →</button>
+                    <button disabled>← Previous</button>
+                    <button onclick="nextModule()">Next: Butterfly Effect →</button>
                 </div>
             </section>
             
@@ -627,20 +845,18 @@
             <section class="module" id="module1" role="region" aria-labelledby="heading1">
                 <h2 id="heading1">Part I: The Butterfly Effect</h2>
                 
-                <p>In 1961, meteorologist Edward Lorenz discovered that rounding a number from 0.506127 to 0.506 in his weather simulation created <strong>completely different weather patterns</strong> weeks later. A difference of 0.000127—smaller than a rounding error—led to hurricanes vs. clear skies.</p>
+                <div id="module1Content"></div>
                 
-                <p>This is <strong>deterministic chaos</strong>: The system follows precise rules (it's not random), but tiny differences in initial conditions create massive divergence.</p>
-                
-                <div class="interactive-section" role="group" aria-labelledby="lorenz-heading">
+                <div class="interactive-section">
                     <h3 id="lorenz-heading">Interactive: Lorenz Weather Simulation</h3>
-                    <p>Watch how a 0.0001 difference in initial conditions leads to opposite weather outcomes:</p>
+                    <p id="lorenzDescription"></p>
                     
                     <div class="weather-grid">
                         <div class="weather-column">
                             <h4>Simulation A</h4>
                             <p><strong>Input:</strong> 0.506127</p>
-                            <div class="weather-display" role="img" aria-label="Weather display for simulation A">
-                                <div class="weather-icon" id="iconOrig" aria-hidden="true">☀️</div>
+                            <div class="weather-display">
+                                <div class="weather-icon" id="iconOrig">☀️</div>
                             </div>
                             <p class="weather-text" id="textOrig" aria-live="polite">Day 1: Clear skies</p>
                         </div>
@@ -648,101 +864,66 @@
                         <div class="weather-column">
                             <h4>Simulation B</h4>
                             <p><strong>Input:</strong> 0.506000</p>
-                            <div class="weather-display" role="img" aria-label="Weather display for simulation B">
-                                <div class="weather-icon" id="iconRound" aria-hidden="true">☀️</div>
+                            <div class="weather-display">
+                                <div class="weather-icon" id="iconRound">☀️</div>
                             </div>
                             <p class="weather-text" id="textRound" aria-live="polite">Day 1: Clear skies</p>
                         </div>
                     </div>
                     
-                    <button onclick="runLorenz()" 
-                            id="lorenzBtn"
-                            aria-describedby="lorenz-description"
-                            style="width: 100%; margin-top: 15px;">
+                    <button onclick="runLorenz()" id="lorenzBtn" style="width: 100%; margin-top: 15px;">
                         ▶ Run Weather Simulation
                     </button>
-                    <div id="lorenz-description" class="sr-only">This will demonstrate how small differences lead to dramatically different outcomes over time</div>
                     
-                    <div id="lorenzFeedback" class="feedback-box" role="alert" aria-live="assertive"></div>
+                    <div id="lorenzFeedback" class="feedback-box"></div>
                 </div>
                 
-                <div class="key-concept">
-                    <div class="key-concept-title">🦋 The Butterfly Metaphor</div>
-                    <p>"Does the flap of a butterfly's wings in Brazil set off a tornado in Texas?" This isn't about butterflies causing tornadoes—it's about how infinitesimal changes propagate through complex systems to create unpredictable outcomes.</p>
-                </div>
+                <div id="module1PRFWarning"></div>
                 
                 <label for="checkpoint1">
-                    <strong>Reflection:</strong> Describe a time when a tiny choice had massive unintended consequences. What made the system chaotic? Could you have predicted the outcome?
+                    <strong>Reflection:</strong> <span id="checkpoint1Question"></span>
                 </label>
-                <textarea id="checkpoint1" 
-                          placeholder="Type your reflection here..."
-                          aria-describedby="checkpoint1-hint"></textarea>
-                <div id="checkpoint1-hint" class="sr-only">Think about decisions where small differences led to major divergence</div>
+                <textarea id="checkpoint1" placeholder="Type your reflection here..."></textarea>
                 
                 <div class="navigation">
-                    <button onclick="prevModule()" aria-label="Go back to previous module">← Previous</button>
-                    <button onclick="nextModule()" aria-label="Continue to next module: The Ensemble">Next: Ensemble Prediction →</button>
+                    <button onclick="prevModule()">← Previous</button>
+                    <button onclick="nextModule()">Next: Ensemble Solution →</button>
                 </div>
             </section>
             
-            <!-- Module 2: The Ensemble -->
+            <!-- Module 2: Ensemble -->
             <section class="module" id="module2" role="region" aria-labelledby="heading2">
                 <h2 id="heading2">Part II: The Ensemble Solution</h2>
                 
-                <p>If tiny differences create massive divergence, how do we make predictions at all?</p>
+                <div id="module2Content"></div>
                 
-                <p>The answer: <strong>Don't run one simulation. Run fifty.</strong></p>
-                
-                <p>This is called <strong>ensemble forecasting</strong>. Instead of trying to find the "perfect" initial conditions (which is impossible in chaos), you run many simulations with slightly different starting points. The spread of outcomes tells you how confident you should be.</p>
-                
-                <div class="interactive-section" role="group" aria-labelledby="ensemble-heading">
-                    <h3 id="ensemble-heading">Interactive: Ensemble Visualization</h3>
+                <div class="interactive-section">
+                    <h3>Interactive: Ensemble Visualization</h3>
                     <p>Watch 50 parallel simulations from slightly different initial conditions:</p>
                     
-                    <div class="ensemble-container" 
-                         id="ensembleGrid" 
-                         role="img" 
-                         aria-label="Visualization of 50 parallel simulations showing outcome distribution"></div>
+                    <div class="ensemble-container" id="ensembleGrid"></div>
                     
                     <div class="button-group">
-                        <button onclick="startEnsemble()" 
-                                class="success" 
-                                id="ensembleBtn"
-                                aria-describedby="ensemble-description">
+                        <button onclick="startEnsemble()" class="success" id="ensembleBtn">
                             ▶ Run 50 Parallel Simulations
                         </button>
-                        <button onclick="resetEnsemble()" 
-                                class="secondary"
-                                aria-label="Reset simulation to initial state">
-                            Reset
-                        </button>
+                        <button onclick="resetEnsemble()" class="secondary">Reset</button>
                     </div>
-                    <div id="ensemble-description" class="sr-only">This will show how multiple simulations reveal the range of possible outcomes</div>
                     
-                    <div id="ensembleFeedback" 
-                         role="status" 
-                         aria-live="polite" 
+                    <div id="ensembleFeedback" role="status" aria-live="polite" 
                          style="margin-top: 15px; font-weight: bold; color: #667eea;"></div>
                 </div>
                 
-                <div class="key-concept">
-                    <div class="key-concept-title">📊 Reading the Ensemble</div>
-                    <p><strong>Green dots (clustered):</strong> Most likely outcomes—where the majority of simulations agree.</p>
-                    <p><strong>Red dots (scattered):</strong> Tail risks—low probability but high consequence outcomes that at least some simulations produce.</p>
-                    <p>The ensemble doesn't eliminate uncertainty—it <em>quantifies</em> it. You can see both the most likely future AND the dangerous outliers.</p>
-                </div>
+                <div id="module2BlindSpot"></div>
                 
                 <label for="checkpoint2">
-                    <strong>Reflection:</strong> How does running multiple simulations protect against "Butterfly Effect" errors? Why is the spread of outcomes as important as the center?
+                    <strong>Reflection:</strong> <span id="checkpoint2Question"></span>
                 </label>
-                <textarea id="checkpoint2" 
-                          placeholder="Type your reflection here..."
-                          aria-describedby="checkpoint2-hint"></textarea>
-                <div id="checkpoint2-hint" class="sr-only">Consider how ensemble thinking changes decision-making under uncertainty</div>
+                <textarea id="checkpoint2" placeholder="Type your reflection here..."></textarea>
                 
                 <div class="navigation">
-                    <button onclick="prevModule()" aria-label="Go back to previous module">← Previous</button>
-                    <button onclick="nextModule()" aria-label="Continue to next module: Ethical Ensembles">Next: Ethical Ensembles →</button>
+                    <button onclick="prevModule()">← Previous</button>
+                    <button onclick="nextModule()">Next: Ethical Ensembles →</button>
                 </div>
             </section>
             
@@ -750,52 +931,21 @@
             <section class="module" id="module3" role="region" aria-labelledby="heading3">
                 <h2 id="heading3">Part III: Ethical Ensembles</h2>
                 
-                <p>Ensemble thinking isn't just for weather. It's a framework for <strong>ethical decision-making under uncertainty</strong>.</p>
+                <div id="module3Content"></div>
                 
-                <p>When you make a moral choice, you're not just picking an action—you're selecting from a probability distribution of futures. Single-path thinking (traditional consequentialism) assumes you can predict "the" outcome. Ensemble ethics recognizes you're choosing a <em>distribution</em> of outcomes.</p>
+                <div id="module3Example"></div>
                 
-                <h3>The Single-Path Error</h3>
-                
-                <div class="decision-comparison">
-                    <div class="decision-card single" role="article" aria-label="Example of single-path thinking">
-                        <h4>❌ Single-Path Thinking</h4>
-                        <p><strong>Decision:</strong> "If I lie on my resume, I'll get the job and everything will be fine."</p>
-                        <p style="margin-top: 15px;"><strong>Problem:</strong> This assumes ONE future trajectory. It ignores the ensemble of possibilities.</p>
-                    </div>
-                    
-                    <div class="decision-card ensemble" role="article" aria-label="Example of ensemble thinking">
-                        <h4>✅ Ensemble Thinking</h4>
-                        <p><strong>Run the ensemble:</strong></p>
-                        <ul style="margin-left: 20px; margin-top: 10px;">
-                            <li><strong>Sim 1 (30%):</strong> Get job, perform well, lie never discovered</li>
-                            <li><strong>Sim 2 (25%):</strong> Caught in background check, fired</li>
-                            <li><strong>Sim 3 (25%):</strong> Get job but live in constant anxiety about exposure</li>
-                            <li><strong>Sim 4 (20%):</strong> Promotion requires higher clearance; lie discovered years later, career destroyed</li>
-                        </ul>
-                        <p style="margin-top: 15px;"><strong>Result:</strong> 70% of simulations involve negative outcomes. The "tail risk" (Sim 4) is catastrophic.</p>
-                    </div>
-                </div>
-                
-                <div class="key-concept">
-                    <div class="key-concept-title">⚖️ Ensemble Ethics Framework</div>
-                    <p><strong>Step 1:</strong> Identify the decision</p>
-                    <p><strong>Step 2:</strong> Run mental simulations with different assumptions ("What if X finds out?" "What if my values change?" "What if the context shifts?")</p>
-                    <p><strong>Step 3:</strong> Map the distribution: Which outcomes cluster? Which are outliers?</p>
-                    <p><strong>Step 4:</strong> Ask: "Can I accept the tail risks?" Not just "What's the most likely outcome?"</p>
-                </div>
+                <div id="module3BlindSpot"></div>
                 
                 <label for="checkpoint3">
-                    <strong>Application Exercise:</strong> Perform an ensemble check on a real decision you're currently facing. Describe at least 4 different plausible futures that could result from your choice. What tail risks exist?
+                    <strong>Application Exercise:</strong> <span id="checkpoint3Question"></span>
                 </label>
-                <textarea id="checkpoint3" 
-                          placeholder="Type your ensemble analysis here..."
-                          aria-describedby="checkpoint3-hint"
+                <textarea id="checkpoint3" placeholder="Type your ensemble analysis here..." 
                           style="min-height: 160px;"></textarea>
-                <div id="checkpoint3-hint" class="sr-only">Try to identify both likely outcomes and low-probability but high-impact scenarios</div>
                 
                 <div class="navigation">
-                    <button onclick="prevModule()" aria-label="Go back to previous module">← Previous</button>
-                    <button onclick="nextModule()" aria-label="Continue to next module: Doubt and Robustness">Next: Doubt as Precision →</button>
+                    <button onclick="prevModule()">← Previous</button>
+                    <button onclick="nextModule()">Next: Doubt as Precision →</button>
                 </div>
             </section>
             
@@ -803,30 +953,22 @@
             <section class="module" id="module4" role="region" aria-labelledby="heading4">
                 <h2 id="heading4">Part IV: Doubt as Precision</h2>
                 
-                <p>We typically treat doubt as a weakness: "They're uncertain, so they're unreliable." But in complex systems, doubt is <strong>precision</strong>.</p>
+                <div id="module4Content"></div>
                 
-                <p>When a weather forecaster says "70% chance of rain," they're not being wishy-washy—they're giving you the <em>shape of the ensemble</em>. When 70% of simulations produce rain, that's what you should hear.</p>
-                
-                <div class="interactive-section" role="group" aria-labelledby="cone-heading">
-                    <h3 id="cone-heading">The Cone of Uncertainty</h3>
-                    <p>Meteorologists visualize forecast uncertainty as a cone expanding from left (now) to right (future). The wider the cone spreads, the more the ensemble members disagree. This isn't a defect—it's <em>information</em>.</p>
+                <div class="interactive-section">
+                    <h3>The Cone of Uncertainty</h3>
+                    <p>Meteorologists visualize forecast uncertainty as a cone expanding from left (now) to right (future). The wider the cone spreads, the more the ensemble members disagree.</p>
                     
                     <div class="button-group">
-                        <button onclick="updateCone('tight')" 
-                                class="success"
-                                aria-describedby="tight-cone-desc">
+                        <button onclick="updateCone('tight')" class="success">
                             Show High Agreement (Tight Cone)
                         </button>
-                        <button onclick="updateCone('wide')" 
-                                class="danger"
-                                aria-describedby="wide-cone-desc">
+                        <button onclick="updateCone('wide')" class="danger">
                             Show High Chaos (Wide Cone)
                         </button>
                     </div>
-                    <div id="tight-cone-desc" class="sr-only">Models agree closely, indicating low uncertainty</div>
-                    <div id="wide-cone-desc" class="sr-only">Models diverge widely, indicating high uncertainty</div>
                     
-                    <div class="cone-display" role="img" aria-label="Cone of uncertainty visualization">
+                    <div class="cone-display">
                         <div id="coneShape" class="cone-shape"></div>
                     </div>
                     
@@ -836,25 +978,16 @@
                     </div>
                 </div>
                 
-                <div class="key-concept">
-                    <div class="key-concept-title">💡 Epistemic Humility</div>
-                    <p>Doubt is not "I don't know anything." It's "I know the shape of what I don't know."</p>
-                    <p>A tight cone means: <strong>"Act decisively—the futures converge."</strong></p>
-                    <p>A wide cone means: <strong>"Preserve options—the futures diverge wildly."</strong></p>
-                    <p>Both are valuable information. Neither is weakness.</p>
-                </div>
+                <div id="module4PRFWarning"></div>
                 
                 <label for="checkpoint4">
-                    <strong>Critical Thinking:</strong> Would you rather have a leader who is 100% certain (but potentially wrong), or one who understands and communicates the cone of uncertainty? Why?
+                    <strong>Critical Thinking:</strong> <span id="checkpoint4Question"></span>
                 </label>
-                <textarea id="checkpoint4" 
-                          placeholder="Type your reflection here..."
-                          aria-describedby="checkpoint4-hint"></textarea>
-                <div id="checkpoint4-hint" class="sr-only">Consider both the psychological comfort of certainty and the practical value of accurate uncertainty assessment</div>
+                <textarea id="checkpoint4" placeholder="Type your reflection here..."></textarea>
                 
                 <div class="navigation">
-                    <button onclick="prevModule()" aria-label="Go back to previous module">← Previous</button>
-                    <button onclick="nextModule()" aria-label="Continue to final module: Pre-Mortem Tool">Next: Pre-Mortem Tool →</button>
+                    <button onclick="prevModule()">← Previous</button>
+                    <button onclick="nextModule()">Next: Pre-Mortem Tool →</button>
                 </div>
             </section>
             
@@ -862,81 +995,47 @@
             <section class="module" id="module5" role="region" aria-labelledby="heading5">
                 <h2 id="heading5">Part V: The Pre-Mortem Tool</h2>
                 
-                <p>A <strong>pre-mortem</strong> is an ensemble technique in reverse. Instead of asking "What could go right?", you assume your plan has <em>already failed spectacularly</em> and work backward to figure out why.</p>
+                <div id="module5Content"></div>
                 
-                <p>This forces you to explore the tail-risk simulations that optimistic single-path thinking ignores.</p>
-                
-                <div class="key-concept">
-                    <div class="key-concept-title">🔍 How the Pre-Mortem Works</div>
-                    <p><strong>Traditional planning:</strong> "Here's our plan. Let's implement it and hope it works."</p>
-                    <p><strong>Pre-mortem planning:</strong> "Imagine it's one year from now and our plan failed catastrophically. What happened?"</p>
-                    <p>By assuming failure, you bypass confirmation bias and force yourself to run the dark simulations.</p>
-                </div>
-                
-                <div class="interactive-section" role="group" aria-labelledby="premortem-heading">
-                    <h3 id="premortem-heading">Your Pre-Mortem Analysis</h3>
-                    <p>Walk through the three steps below to perform a pre-mortem on a current plan or decision:</p>
+                <div class="interactive-section">
+                    <h3>Your Pre-Mortem Analysis</h3>
+                    <p id="premortemIntro"></p>
                     
                     <div class="premortem-grid">
                         <div class="premortem-step">
                             <h4>Step 1: Your Plan</h4>
-                            <label for="pmPlan" class="sr-only">Describe your current plan or decision</label>
                             <textarea id="pmPlan" 
-                                      placeholder="What are you planning to do? Be specific..."
-                                      aria-describedby="pmPlan-hint"></textarea>
-                            <div id="pmPlan-hint" class="sr-only">This could be a career decision, project plan, or personal goal</div>
+                                      placeholder="What are you planning to do? Be specific..."></textarea>
                         </div>
                         
                         <div class="premortem-step">
                             <h4>Step 2: The Spectacular Failure</h4>
-                            <label for="pmFailure" class="sr-only">Describe the failure scenario</label>
                             <textarea id="pmFailure" 
-                                      placeholder="Assume this plan failed catastrophically. Describe the failure in vivid detail. What went wrong?"
-                                      aria-describedby="pmFailure-hint"></textarea>
-                            <div id="pmFailure-hint" class="sr-only">Don't hold back - imagine the worst plausible outcome</div>
+                                      placeholder="Assume this plan failed catastrophically. Describe the failure in vivid detail..."></textarea>
                         </div>
                         
                         <div class="premortem-step">
                             <h4>Step 3: The Causal Chain</h4>
-                            <label for="pmHistory" class="sr-only">Trace the path from today to failure</label>
                             <textarea id="pmHistory" 
-                                      placeholder="Work backward: What sequence of events led from today to this failure? What early warning signs did we miss?"
-                                      aria-describedby="pmHistory-hint"></textarea>
-                            <div id="pmHistory-hint" class="sr-only">Identify the butterfly flaps - the small decisions that led to catastrophe</div>
+                                      placeholder="Work backward: What sequence of events led from today to this failure?"></textarea>
                         </div>
                     </div>
                     
                     <button onclick="completePremortem()" 
                             class="success" 
                             id="premortemBtn"
-                            style="width: 100%; margin-top: 20px;"
-                            aria-describedby="premortem-action-desc">
+                            style="width: 100%; margin-top: 20px;">
                         📋 Complete Pre-Mortem Analysis
                     </button>
-                    <div id="premortem-action-desc" class="sr-only">This will analyze your pre-mortem and provide insights</div>
                     
-                    <div id="premortemResult" class="feedback-box" role="alert" aria-live="assertive"></div>
+                    <div id="premortemResult" class="feedback-box"></div>
                 </div>
                 
-                <div class="key-concept">
-                    <div class="key-concept-title">🛡️ Making Decisions Robust</div>
-                    <p>The pre-mortem doesn't tell you not to act. It tells you <em>which simulations to defend against</em>.</p>
-                    <p>Once you've identified the failure modes, you can either:</p>
-                    <ul style="margin-left: 25px; margin-top: 10px;">
-                        <li><strong>Redesign the plan</strong> to avoid those pathways</li>
-                        <li><strong>Install tripwires</strong> (early warning systems) to detect when you're entering a failure simulation</li>
-                        <li><strong>Accept the risk</strong> with full knowledge of what you're betting on</li>
-                    </ul>
-                    <p style="margin-top: 15px;">This is how you move from fragile (breaks under stress) to robust (withstands the tail risks).</p>
-                </div>
+                <div id="module5PRFGuidance"></div>
                 
                 <div class="navigation">
-                    <button onclick="prevModule()" aria-label="Go back to previous module">← Previous</button>
-                    <button onclick="location.reload()" 
-                            class="success"
-                            aria-label="Restart the course from the beginning">
-                        🔄 Start Over
-                    </button>
+                    <button onclick="prevModule()">← Previous</button>
+                    <button onclick="location.reload()" class="success">🔄 Start Over</button>
                 </div>
             </section>
         </div>
@@ -945,20 +1044,905 @@
     <script>
         let currentModule = 0;
         const totalModules = 6;
+        let prfProfile = null;
+        let isPersonalized = false;
+        
+        // PRF Pattern Database
+        const prfPatterns = {
+            care: {
+                certaintyBias: "Act immediately on visible suffering",
+                blindSpots: [
+                    "Long-term consequences of immediate action",
+                    "Burnout from unsustainable helping",
+                    "Creating dependency instead of capability",
+                    "Opportunity costs (helping Person A means not helping Person B)"
+                ],
+                ensembleWeakness: "You run emotional simulations but skip cold analysis. You feel the relief of helping but don't simulate the tail risks.",
+                naturalSimulations: [
+                    "Help person immediately, feel relief",
+                    "Don't help, feel guilt and distress"
+                ],
+                missingSimulations: [
+                    "Help now, burn out in 3 months, can't help anyone after",
+                    "Help creates dependency, person worse off at 1 year",
+                    "Your help crowds out a better-equipped helper",
+                    "Helping Person A means Person B gets no one"
+                ],
+                lorenzExample: "medical triage decision",
+                lorenzDescription: "A Care-dominant PRF sees suffering and wants immediate action. But in complex medical systems, tiny differences in triage decisions (prioritizing Patient A vs Patient B) can lead to dramatically different outcomes weeks later. The Butterfly Effect punishes certainty—even certainty driven by compassion.",
+                module0Warning: {
+                    title: "⚠️ CARE-DOMINANT WARNING: Your Certainty Drug",
+                    content: `Your **Care-dominant PRF** makes you especially vulnerable to certainty bias. When you see suffering, your neural networks slam shut: "Act NOW." This feels like moral clarity, but it's actually **premature computation termination**.
+                    
+**Your specific trap:** You run ONE simulation (immediate relief) and stop. You don't run the ensemble that includes:
+- "What if my intervention makes things worse?"
+- "What if I burn out and can't help anyone?"
+- "What if this creates dependency instead of capability?"
+
+The brain craves certainty because doubt is metabolically expensive. But your Care foundation makes this worse—acting feels like virtue, while doubting feels like callousness. **This is the trap.**`
+                },
+                coneWarning: {
+                    tight: `**⚠️ CARE PRF ALERT:** Your Care-dominant PRF feels RELIEF when you see a tight cone because it justifies immediate action. But ask yourself: Is the cone actually tight, or did I stop computing because I wanted certainty? Run the ensemble again with the question: "What are the long-term consequences I'm not seeing?"`,
+                    wide: `**✓ CARE PRF STRENGTH:** Wide cones are hard for you because they suggest waiting, and waiting feels like abandoning people. But sometimes the most caring action is preserving options until the uncertainty resolves. Ask: "If I act irreversibly now and I'm wrong, what tail risk am I creating?"`
+                },
+                premortemTemplate: `**Based on your Care-dominant pattern, here's a likely failure mode:**
+
+**Your Plan:** [You filled this in]
+
+**The Failure (1 year later):**
+You helped Person A immediately and intensely. You felt virtuous. But:
+- You didn't pace yourself—you burned out after 3 months
+- Person B, who you could have helped, got no one
+- Person A became dependent on your intensity and couldn't function when you left
+- You violated your own CIB (Code Integrity), became a Reactant
+- You're now cynical about helping anyone
+
+**The Causal Chain:**
+- Day 1: You saw suffering and felt certainty: "I MUST act"
+- Week 2: You ignored signs of your own depletion (certainty bias)
+- Month 1: You didn't run the ensemble: "What if this intensity isn't sustainable?"
+- Month 3: Burnout hit. You had no reserves left.
+- Month 6: Person A struggled without your intensity. Person B never got help.
+- 1 year: You quit the field entirely.
+
+**The Butterfly Flap:** Not running the sustainability simulation in Week 1.`
+            },
+            fairness: {
+                certaintyBias: "Demand complete data before acting",
+                blindSpots: [
+                    "Urgent situations where delay causes harm",
+                    "Analysis paralysis preventing any action",
+                    "Opportunity windows that close while gathering data",
+                    "Asymmetric risks (waiting creates harm)"
+                ],
+                ensembleWeakness: "You demand certainty for every simulation. You want proof that each outcome is possible before including it in the ensemble. This is impossible in chaos.",
+                naturalSimulations: [
+                    "Gather all available data before deciding",
+                    "Identify what additional information is needed"
+                ],
+                missingSimulations: [
+                    "By the time I have perfect data, the opportunity is gone",
+                    "My demand for certainty creates analysis paralysis",
+                    "The person who acts with 70% data wins, I'm stuck at 90%",
+                    "My skepticism becomes an excuse for inaction"
+                ],
+                lorenzExample: "legal precedent vs case-specific justice",
+                lorenzDescription: "A Fairness-dominant PRF demands consistency and data. But in complex legal systems, tiny differences in case details can lead to dramatically different precedents. The Butterfly Effect shows that demanding perfect consistency across chaotic systems is physically impossible.",
+                module0Warning: {
+                    title: "⚠️ FAIRNESS-DOMINANT WARNING: Your Certainty Paradox",
+                    content: `Your **Fairness-dominant PRF** creates a paradox: You think you're resisting certainty (by demanding more data), but you're actually demanding a different kind of certainty—certainty that you have enough information.
+
+**Your specific trap:** You run analysis simulations but never action simulations. You compute: "What data am I missing?" but not "What happens if I wait too long?"
+
+The brain craves certainty, and yours craves it in the form of complete information. **But in chaotic systems, complete information is impossible.** You're waiting for a certainty that will never arrive.
+
+**Result:** Analysis paralysis. While you're gathering data, the window closes, the person suffers, the opportunity disappears.`
+                },
+                coneWarning: {
+                    tight: `**✓ FAIRNESS PRF STRENGTH:** Tight cones are when you shine—the data agrees, you can act decisively with confidence. But verify: Is the cone actually tight, or am I seeing agreement because I only looked at sources that confirm my analysis?`,
+                    wide: `**⚠️ FAIRNESS PRF ALERT:** Wide cones are your trap. You see divergent models and think: "We need MORE data." But sometimes uncertainty doesn't resolve with more data—it's inherent to the system. Ask: "Is there a decision I can make that's robust to this uncertainty, or am I using the wide cone as an excuse?"` 
+                },
+                premortemTemplate: `**Based on your Fairness-dominant pattern, here's a likely failure mode:**
+
+**Your Plan:** [You filled this in]
+
+**The Failure (1 year later):**
+You spent months gathering data, analyzing alternatives, running cost-benefit analyses. You felt rigorous and fair. But:
+- While you analyzed, the opportunity closed
+- The person you could have helped didn't wait for your complete analysis
+- Someone else acted with less data and won
+- You're left with a perfect analysis of a missed opportunity
+
+**The Causal Chain:**
+- Day 1: You identified gaps in available information
+- Week 2: You designed studies to fill those gaps
+- Month 1: You waited for study results (certainty demand)
+- Month 3: New questions emerged, more data needed
+- Month 6: The decision window closed while you analyzed
+- 1 year: You have perfect information about an opportunity that no longer exists
+
+**The Butterfly Flap:** Not running the simulation "What if I act with 70% data instead of waiting for 95%?"`
+            },
+            liberty: {
+                certaintyBias: "Individual autonomy is always the answer",
+                blindSpots: [
+                    "Coordination problems that require collective action",
+                    "How individual freedom can create collective chaos",
+                    "Situations where constraint enables capability",
+                    "Network effects and externalities"
+                ],
+                ensembleWeakness: "You don't run simulations involving collective coordination. Your ensemble only includes individual action paths.",
+                naturalSimulations: [
+                    "I act independently, maintain full autonomy",
+                    "I resist any constraint on my freedom"
+                ],
+                missingSimulations: [
+                    "My individual optimization creates system-level chaos",
+                    "Coordination with others multiplies my capability",
+                    "Some constraints enable rather than restrict",
+                    "My freedom depends on others' coordination"
+                ],
+                lorenzExample: "traffic flow vs individual route choice",
+                lorenzDescription: "A Liberty-dominant PRF prioritizes individual choice. But in traffic systems, tiny differences in individual route choices create massive congestion differences. The Butterfly Effect shows that pure individual optimization can create collective catastrophe.",
+                module0Warning: {
+                    title: "⚠️ LIBERTY-DOMINANT WARNING: Your Coordination Blind Spot",
+                    content: `Your **Liberty-dominant PRF** makes you certain that individual freedom is always the answer. This certainty blinds you to coordination problems where individual optimization creates collective chaos.
+
+**Your specific trap:** You run simulations where YOU act independently, but you don't run simulations where COORDINATION multiplies capability. You see constraints as tyranny, not as enabling structures.
+
+**Example you're missing:** 
+- Traffic: Everyone choosing their "optimal" route creates gridlock
+- Commons: Everyone maximizing individual extraction destroys the resource  
+- Networks: Individual optimization breaks collective function
+
+Your certainty bias is: "Coordination = constraint = bad." But sometimes coordination is how you GET capability, not how you lose it.`
+                },
+                coneWarning: {
+                    tight: `**⚠️ LIBERTY PRF ALERT:** Tight cones tempt you to act unilaterally because "the path is clear." But ask: Would coordinating with others make this more robust? Is my certainty about individual action blinding me to coordination gains?`,
+                    wide: `**✓ LIBERTY PRF STRENGTH:** Wide cones are when coordination becomes obviously necessary—no single path is reliable. This is your opportunity to discover that OS2 coordination (capability pooling) doesn't require surrendering your values, just your isolation.`
+                },
+                premortemTemplate: `**Based on your Liberty-dominant pattern, here's a likely failure mode:**
+
+**Your Plan:** [You filled this in]
+
+**The Failure (1 year later):**
+You acted independently, optimizing for your individual interests. You felt free and autonomous. But:
+- Your "optimal" choice created negative externalities for others
+- Others retaliated with their own uncoordinated optimization
+- The collective system collapsed into chaos
+- Your "freedom" produced a worse outcome than coordination would have
+
+**The Causal Chain:**
+- Day 1: You saw the optimal path for yourself
+- Week 2: You rejected coordination as "constraint"
+- Month 1: Others also optimized individually (Tragedy of Commons)
+- Month 3: System-level chaos emerged from individual optimization
+- Month 6: No one has freedom anymore because the system broke
+- 1 year: You have autonomy in a destroyed system
+
+**The Butterfly Flap:** Not running the simulation "What if coordination multiplies my capability instead of constraining it?"`
+            },
+            loyalty: {
+                certaintyBias: "Protect the in-group at all costs",
+                blindSpots: [
+                    "How in-group optimization harms outgroups",
+                    "Long-term costs of tribalism",
+                    "Situations requiring cross-group coordination",
+                    "When in-group loyalty demands unethical action"
+                ],
+                ensembleWeakness: "You only run simulations where your group wins. You don't simulate scenarios where cross-group coordination produces better outcomes for everyone.",
+                naturalSimulations: [
+                    "Protect my group, even if it harms others",
+                    "Sacrifice outgroup interests for ingroup gains"
+                ],
+                missingSimulations: [
+                    "My group's 'victory' creates long-term retaliation",
+                    "Cross-group coordination multiplies total welfare",
+                    "The outgroup has capabilities my group needs",
+                    "My loyalty to the group demands betraying my values"
+                ],
+                lorenzExample: "resource allocation in tribal competition",
+                lorenzDescription: "A Loyalty-dominant PRF prioritizes in-group interests. But in competitive resource systems, tiny differences in tribal strategy can lead to dramatically different outcomes. The Butterfly Effect shows that pure in-group optimization often creates lose-lose scenarios.",
+                module0Warning: {
+                    title: "⚠️ LOYALTY-DOMINANT WARNING: Your Tribal Certainty",
+                    content: `Your **Loyalty-dominant PRF** makes you certain that protecting your group is always right. This certainty blinds you to situations where cross-group coordination produces better outcomes for everyone, including your group.
+
+**Your specific trap:** You run simulations where your group wins and others lose, but you don't run simulations where everyone wins through coordination. You see the world as zero-sum when it's not.
+
+**What you're missing:**
+- Cross-group coordination can multiply total welfare (your group gets more too)
+- Long-term retaliation costs from short-term in-group gains
+- The outgroup has capabilities your group desperately needs
+- Your loyalty to the group may demand betraying your personal values
+
+Your certainty bias is: "My group vs. their group." But many problems require "our shared network goal."`
+                },
+                coneWarning: {
+                    tight: `**⚠️ LOYALTY PRF ALERT:** Tight cones make you confident in in-group strategies. But ask: Am I certain because the models agree, or because I'm only running simulations where my group wins? What happens if I include cross-group coordination scenarios?`,
+                    wide: `**✓ LOYALTY PRF OPPORTUNITY:** Wide cones show that pure in-group optimization has unpredictable outcomes. This is when to consider: "What if we pool capabilities across groups instead of competing?"`
+                },
+                premortemTemplate: `**Based on your Loyalty-dominant pattern, here's a likely failure mode:**
+
+**Your Plan:** [You filled this in]
+
+**The Failure (1 year later):**
+You prioritized your group's interests above all else. You felt like a loyal member. But:
+- Your group's "victory" created long-term retaliation from outgroups
+- The outgroup had capabilities your group desperately needed
+- Cross-group warfare destroyed value for everyone
+- You betrayed your personal values to maintain group loyalty
+
+**The Causal Chain:**
+- Day 1: You identified an opportunity to benefit your group
+- Week 2: You dismissed outgroup harm as "not my problem"
+- Month 1: Outgroups retaliated (predictable but not simulated)
+- Month 3: Your group lost access to critical outgroup capabilities
+- Month 6: Total welfare decreased for everyone, including your group
+- 1 year: You "won" the tribal battle but lost the coordination war
+
+**The Butterfly Flap:** Not running the simulation "What if cross-group coordination produces more for everyone, including my group?"`
+            },
+            authority: {
+                certaintyBias: "Defer to established hierarchy and expertise",
+                blindSpots: [
+                    "When authority is wrong or corrupt",
+                    "Bootstrap authority from demonstrated competence",
+                    "Situations requiring questioning of hierarchy",
+                    "How deference prevents innovation"
+                ],
+                ensembleWeakness: "You don't run simulations where challenging authority produces better outcomes. Your ensemble stops at 'expert consensus.'",
+                naturalSimulations: [
+                    "Follow established protocols and expert guidance",
+                    "Defer to hierarchy and credentials"
+                ],
+                missingSimulations: [
+                    "The experts are wrong (Challenger disaster, CTE, COVID)",
+                    "My questioning reveals critical blind spots",
+                    "Bootstrap authority emerges from competence, not credentials",
+                    "Deference prevents me from seeing obvious problems"
+                ],
+                lorenzExample: "expert consensus vs ground truth",
+                lorenzDescription: "An Authority-dominant PRF trusts established expertise. But in complex systems, tiny differences in assumptions can lead expert consensus dramatically astray. The Butterfly Effect shows that expert certainty doesn't guarantee accuracy.",
+                module0Warning: {
+                    title: "⚠️ AUTHORITY-DOMINANT WARNING: Your Deference Trap",
+                    content: `Your **Authority-dominant PRF** makes you certain that established expertise and hierarchy are reliable. This certainty blinds you to situations where authority is wrong and questioning would reveal critical problems.
+
+**Your specific trap:** You run simulations where following authority produces good outcomes, but you don't run simulations where challenging authority saves lives (Challenger disaster, CTE crisis, financial crashes).
+
+**Historical examples you're missing:**
+- NASA engineers deferred to management → Challenger exploded
+- NFL deferred to league doctors → CTE crisis for decades
+- Economists deferred to consensus → Financial crisis
+
+Your certainty bias is: "Experts know better than me." But **bootstrap authority** emerges from demonstrated competence, not credentials. Sometimes the families asking questions have more authority than the credentialed experts.`
+                },
+                coneWarning: {
+                    tight: `**⚠️ AUTHORITY PRF ALERT:** Tight cones from expert consensus feel like safety. But ask: Is the cone tight because models truly agree, or because everyone is using the same flawed assumptions? (See: 2008 financial crisis—all models agreed housing prices couldn't fall.)`,
+                    wide: `**✓ AUTHORITY PRF OPPORTUNITY:** Wide cones show expert disagreement. This is when your questioning has highest value. Instead of waiting for experts to converge, ask: "What are the different assumption sets producing these different outcomes?"`
+                },
+                premortemTemplate: `**Based on your Authority-dominant pattern, here's a likely failure mode:**
+
+**Your Plan:** [You filled this in]
+
+**The Failure (1 year later):**
+You followed established protocols and expert guidance. You felt confident in the process. But:
+- The experts were operating on flawed assumptions
+- Your questioning would have revealed the fatal flaw
+- By the time the error was obvious, the damage was done
+- You have a perfect defense ("I followed the experts") but the outcome failed
+
+**The Causal Chain:**
+- Day 1: You consulted the experts and got consensus
+- Week 2: You noticed something odd but deferred to expertise
+- Month 1: The odd pattern continued (you didn't question it)
+- Month 3: The flaw in expert assumptions became critical
+- Month 6: Catastrophic failure occurred
+- 1 year: Investigation shows the flaw was visible from Day 1, but no one questioned authority
+
+**The Butterfly Flap:** Not running the simulation "What if the experts are wrong and my questioning matters?"`
+            },
+            sanctity: {
+                certaintyBias: "Some things are sacred and beyond pragmatic calculation",
+                blindSpots: [
+                    "When purity tests prevent practical solutions",
+                    "How moral absolutism creates worse outcomes",
+                    "Situations requiring pragmatic trade-offs",
+                    "The difference between values and tactics"
+                ],
+                ensembleWeakness: "You don't run simulations involving moral compromise, even when that compromise produces better overall outcomes.",
+                naturalSimulations: [
+                    "Maintain purity, refuse any moral compromise",
+                    "Reject solutions that violate sacred principles"
+                ],
+                missingSimulations: [
+                    "My purity test produces worse outcomes for everyone",
+                    "Pragmatic compromise advances my core values better",
+                    "Tactics ≠ values: I can negotiate tactics while keeping values",
+                    "My refusal to compromise enables greater harms"
+                ],
+                lorenzExample: "moral purity vs pragmatic harm reduction",
+                lorenzDescription: "A Sanctity-dominant PRF refuses moral compromise. But in complex ethical systems, tiny differences in pragmatic tactics can lead to dramatically different outcomes. The Butterfly Effect shows that purity without strategy often increases total harm.",
+                module0Warning: {
+                    title: "⚠️ SANCTITY-DOMINANT WARNING: Your Purity Trap",
+                    content: `Your **Sanctity-dominant PRF** makes you certain that some principles are beyond pragmatic calculation. This certainty blinds you to situations where your purity test produces worse outcomes than pragmatic compromise.
+
+**Your specific trap:** You run simulations where maintaining purity feels virtuous, but you don't run simulations where purity increases total harm. You confuse tactics (negotiable) with values (non-negotiable).
+
+**Example you're missing:**
+- Harm reduction: Pure abstinence-only → more deaths than pragmatic needle exchange
+- Environmental: Pure anti-nuclear → more coal → more harm than pragmatic nuclear
+- Negotiation: Pure refusal to compromise → worse outcome than tactical flexibility
+
+Your certainty bias is: "If I compromise, I betray my values." But Constructor Theory shows: **preserving the capacity to advance your values over time** matters more than purity in any single instance.`
+                },
+                coneWarning: {
+                    tight: `**⚠️ SANCTITY PRF ALERT:** Tight cones make you confident in pure strategies. But ask: Is the cone tight because the strategy actually works, or because I'm not including pragmatic alternatives in the ensemble?`,
+                    wide: `**✓ SANCTITY PRF OPPORTUNITY:** Wide cones show that pure strategies have unpredictable outcomes. This is when to ask: "Can I advance my core values through pragmatic tactics while keeping my principles intact?"`
+                },
+                premortemTemplate: `**Based on your Sanctity-dominant pattern, here's a likely failure mode:**
+
+**Your Plan:** [You filled this in]
+
+**The Failure (1 year later):**
+You maintained moral purity and refused all compromise. You felt virtuous and principled. But:
+- Your purity test prevented practical solutions that would have helped
+- The problem got worse while you maintained purity
+- Someone else solved it with pragmatic tactics you refused
+- Your values are intact but the people you wanted to help suffered more
+
+**The Causal Chain:**
+- Day 1: You identified the right values (Care, Justice, Dignity)
+- Week 2: You rejected pragmatic tactics as "moral compromise"
+- Month 1: The problem worsened (purity doesn't solve problems)
+- Month 3: Others proposed pragmatic solutions; you rejected them
+- Month 6: The harm increased while you maintained purity
+- 1 year: Your values are intact, but more people suffered because pragmatic tactics weren't deployed
+
+**The Butterfly Flap:** Not running the simulation "What if I keep my values but use pragmatic tactics?"`
+            }
+        };
+        
+        // File upload handler
+        document.getElementById('prfFileInput').addEventListener('change', handleFileUpload);
+        
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    prfProfile = parsePRFData(data);
+                    isPersonalized = true;
+                    displayPRFProfile();
+                    personalizeContent();
+                    showMainContent();
+                } catch (error) {
+                    alert('Error reading PRF file. Please ensure it is a valid JSON file from the PRF-22 Digital E-Twin app.');
+                    console.error('Parse error:', error);
+                }
+            };
+            reader.readAsText(file);
+        }
+        
+        function parsePRFData(data) {
+            const foundations = data.foundations || {};
+            const dominant = Object.entries(foundations)
+                .sort((a, b) => b[1] - a[1])[0];
+            
+            return {
+                name: data.name || 'Student',
+                foundations: foundations,
+                dominant: {
+                    name: dominant[0],
+                    value: dominant[1]
+                }
+            };
+        }
+        
+        function skipPersonalization() {
+            isPersonalized = false;
+            prfProfile = {
+                name: 'Student',
+                foundations: {},
+                dominant: { name: 'generic', value: 0 }
+            };
+            personalizeContent();
+            showMainContent();
+        }
+        
+        function showMainContent() {
+            document.getElementById('uploadSection').classList.add('hidden');
+            document.getElementById('mainContent').classList.add('active');
+            document.getElementById('downloadButton').classList.add('active');
+            updateProgress();
+        }
+        
+        function displayPRFProfile() {
+            const card = document.getElementById('prfProfileCard');
+            const nameEl = document.getElementById('prfName');
+            const dominantEl = document.getElementById('prfDominant');
+            const foundationsEl = document.getElementById('prfFoundations');
+            const warningsEl = document.getElementById('prfWarningsList');
+            
+            nameEl.textContent = `${prfProfile.name}'s Certainty Profile`;
+            dominantEl.textContent = `Dominant: ${capitalize(prfProfile.dominant.name)}-${prfProfile.dominant.value.toFixed(1)}`;
+            
+            // Display all foundations
+            foundationsEl.innerHTML = '';
+            for (const [foundation, value] of Object.entries(prfProfile.foundations)) {
+                foundationsEl.innerHTML += `
+                    <div class="foundation-item">
+                        <div class="foundation-name">${capitalize(foundation)}</div>
+                        <div class="foundation-value">${value.toFixed(1)}</div>
+                    </div>
+                `;
+            }
+            
+            // Display warnings
+            const pattern = prfPatterns[prfProfile.dominant.name];
+            if (pattern) {
+                warningsEl.innerHTML = `
+                    <li><strong>Your certainty bias:</strong> ${pattern.certaintyBias}</li>
+                    <li><strong>What you tend to miss:</strong> ${pattern.blindSpots[0]}</li>
+                    <li><strong>Your ensemble weakness:</strong> ${pattern.ensembleWeakness}</li>
+                `;
+            }
+            
+            card.classList.add('active');
+        }
+        
+        function personalizeContent() {
+            const dominantName = prfProfile.dominant.name;
+            const pattern = prfPatterns[dominantName] || prfPatterns.care; // Default to care if generic
+            
+            // Module 0 Content
+            if (isPersonalized) {
+                document.getElementById('module0Content').innerHTML = `
+                    <p>The brain craves certainty because it is <strong>metabolically cheap</strong>. Doubting requires energy—it keeps neural networks active, running parallel simulations, evaluating counterfactuals. This is why certainty feels like relief: your prefrontal cortex gets to rest.</p>
+                    
+                    <p>However, in chaotic systems (which includes most real-world ethical decisions), certainty is mathematically equivalent to blindness. When you declare "I'm absolutely sure," you're not demonstrating strength—you're announcing that you've stopped computing.</p>
+                    
+                    <div class="key-concept">
+                        <div class="key-concept-title">🔑 Key Insight</div>
+                        <p>Doubt is not a character flaw. It is an accurate measurement of system complexity. The most ethical agents are those who can tolerate uncertainty long enough to run the simulations.</p>
+                    </div>
+                `;
+                
+                document.getElementById('module0PRFWarning').innerHTML = `
+                    <div class="prf-warning">
+                        <div class="prf-warning-title">${pattern.module0Warning.title}</div>
+                        <p style="white-space: pre-line;">${pattern.module0Warning.content}</p>
+                    </div>
+                `;
+                
+                document.getElementById('checkpoint0Question').textContent = 
+                    "Describe a time when your certainty bias (immediate action on suffering) caused you to skip important simulations. What long-term consequences did you miss?";
+            } else {
+                // Generic content
+                document.getElementById('module0Content').innerHTML = `
+                    <p>The brain craves certainty because it is <strong>metabolically cheap</strong>. Doubting requires energy—it keeps neural networks active, running parallel simulations, evaluating counterfactuals. This is why certainty feels like relief: your prefrontal cortex gets to rest.</p>
+                    
+                    <p>However, in chaotic systems (which includes most real-world ethical decisions), certainty is mathematically equivalent to blindness. When you declare "I'm absolutely sure," you're not demonstrating strength—you're announcing that you've stopped computing.</p>
+                    
+                    <div class="key-concept">
+                        <div class="key-concept-title">🔑 Key Insight</div>
+                        <p>Doubt is not a character flaw. It is an accurate measurement of system complexity. The most ethical agents are those who can tolerate uncertainty long enough to run the simulations.</p>
+                    </div>
+                `;
+                
+                document.getElementById('module0PRFWarning').innerHTML = '';
+                document.getElementById('checkpoint0Question').textContent = 
+                    "Why does certainty feel like a 'drug' to the brain? Describe a time when you felt certain about something, only to discover later that the situation was far more complex than you realized.";
+            }
+            
+            // Module 1 Content
+            if (isPersonalized) {
+                document.getElementById('module1Content').innerHTML = `
+                    <p>In 1961, meteorologist Edward Lorenz discovered that rounding a number from 0.506127 to 0.506 in his weather simulation created <strong>completely different weather patterns</strong> weeks later. A difference of 0.000127—smaller than a rounding error—led to hurricanes vs. clear skies.</p>
+                    
+                    <p>This is <strong>deterministic chaos</strong>: The system follows precise rules (it's not random), but tiny differences in initial conditions create massive divergence.</p>
+                    
+                    <div class="key-concept">
+                        <div class="key-concept-title">🦋 The Butterfly Metaphor</div>
+                        <p>"Does the flap of a butterfly's wings in Brazil set off a tornado in Texas?" This isn't about butterflies causing tornadoes—it's about how infinitesimal changes propagate through complex systems to create unpredictable outcomes.</p>
+                    </div>
+                `;
+                
+                document.getElementById('lorenzDescription').textContent = pattern.lorenzDescription;
+                
+                document.getElementById('module1PRFWarning').innerHTML = `
+                    <div class="prf-warning">
+                        <div class="prf-warning-title">⚠️ YOUR PRF PATTERN IN CHAOS</div>
+                        <p>In your ${pattern.lorenzExample}, tiny differences in initial decisions can lead to dramatically opposite outcomes. Your certainty bias ("${pattern.certaintyBias}") makes you close computation too early, missing these butterfly effects.</p>
+                    </div>
+                `;
+                
+                document.getElementById('checkpoint1Question').textContent = 
+                    `Describe a time in ${pattern.lorenzExample} where a tiny choice had massive unintended consequences. What made the system chaotic? Could your PRF pattern have predicted this?`;
+            } else {
+                document.getElementById('module1Content').innerHTML = `
+                    <p>In 1961, meteorologist Edward Lorenz discovered that rounding a number from 0.506127 to 0.506 in his weather simulation created <strong>completely different weather patterns</strong> weeks later. A difference of 0.000127—smaller than a rounding error—led to hurricanes vs. clear skies.</p>
+                    
+                    <p>This is <strong>deterministic chaos</strong>: The system follows precise rules (it's not random), but tiny differences in initial conditions create massive divergence.</p>
+                    
+                    <div class="key-concept">
+                        <div class="key-concept-title">🦋 The Butterfly Metaphor</div>
+                        <p>"Does the flap of a butterfly's wings in Brazil set off a tornado in Texas?" This isn't about butterflies causing tornadoes—it's about how infinitesimal changes propagate through complex systems to create unpredictable outcomes.</p>
+                    </div>
+                `;
+                
+                document.getElementById('lorenzDescription').textContent = 
+                    "Watch how a 0.0001 difference in initial conditions leads to opposite weather outcomes:";
+                
+                document.getElementById('module1PRFWarning').innerHTML = '';
+                document.getElementById('checkpoint1Question').textContent = 
+                    "Describe a time when a tiny choice had massive unintended consequences. What made the system chaotic? Could you have predicted the outcome?";
+            }
+            
+            // Module 2 Content
+            if (isPersonalized) {
+                document.getElementById('module2Content').innerHTML = `
+                    <p>If tiny differences create massive divergence, how do we make predictions at all?</p>
+                    
+                    <p>The answer: <strong>Don't run one simulation. Run fifty.</strong></p>
+                    
+                    <p>This is called <strong>ensemble forecasting</strong>. Instead of trying to find the "perfect" initial conditions (which is impossible in chaos), you run many simulations with slightly different starting points. The spread of outcomes tells you how confident you should be.</p>
+                    
+                    <div class="key-concept">
+                        <div class="key-concept-title">📊 Reading the Ensemble</div>
+                        <p><strong>Green dots (clustered):</strong> Most likely outcomes—where the majority of simulations agree.</p>
+                        <p><strong>Red dots (scattered):</strong> Tail risks—low probability but high consequence outcomes that at least some simulations produce.</p>
+                        <p>The ensemble doesn't eliminate uncertainty—it <em>quantifies</em> it.</p>
+                    </div>
+                `;
+                
+                document.getElementById('module2BlindSpot').innerHTML = `
+                    <div class="blind-spot-detector">
+                        <div class="blind-spot-title">🎯 Your Blind Spot Detector</div>
+                        <p><strong>Your ${capitalize(dominantName)}-${prfProfile.dominant.value.toFixed(1)} PRF naturally runs these simulations:</strong></p>
+                        <div class="simulation-list">
+                            ${pattern.naturalSimulations.map(sim => `
+                                <div class="simulation-item natural">
+                                    <span class="simulation-icon">✅</span>
+                                    <span>${sim}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <p style="margin-top: 20px;"><strong>Your PRF does NOT naturally run these simulations:</strong></p>
+                        <div class="simulation-list">
+                            ${pattern.missingSimulations.map(sim => `
+                                <div class="simulation-item missing">
+                                    <span class="simulation-icon">❌</span>
+                                    <span>${sim}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <p style="margin-top: 20px; font-style: italic;">The ensemble technique forces you to run the simulations your PRF skips. This is how you escape your certainty bias.</p>
+                    </div>
+                `;
+                
+                document.getElementById('checkpoint2Question').textContent = 
+                    "Look at the missing simulations above. Pick one and describe a real situation where NOT running that simulation caused problems. How would the ensemble have helped?";
+            } else {
+                document.getElementById('module2Content').innerHTML = `
+                    <p>If tiny differences create massive divergence, how do we make predictions at all?</p>
+                    
+                    <p>The answer: <strong>Don't run one simulation. Run fifty.</strong></p>
+                    
+                    <p>This is called <strong>ensemble forecasting</strong>. Instead of trying to find the "perfect" initial conditions (which is impossible in chaos), you run many simulations with slightly different starting points. The spread of outcomes tells you how confident you should be.</p>
+                    
+                    <div class="key-concept">
+                        <div class="key-concept-title">📊 Reading the Ensemble</div>
+                        <p><strong>Green dots (clustered):</strong> Most likely outcomes—where the majority of simulations agree.</p>
+                        <p><strong>Red dots (scattered):</strong> Tail risks—low probability but high consequence outcomes that at least some simulations produce.</p>
+                        <p>The ensemble doesn't eliminate uncertainty—it <em>quantifies</em> it.</p>
+                    </div>
+                `;
+                
+                document.getElementById('module2BlindSpot').innerHTML = '';
+                document.getElementById('checkpoint2Question').textContent = 
+                    "How does running multiple simulations protect against 'Butterfly Effect' errors? Why is the spread of outcomes as important as the center?";
+            }
+            
+            // Module 3 Content
+            const module3Content = `
+                <p>Ensemble thinking isn't just for weather. It's a framework for <strong>ethical decision-making under uncertainty</strong>.</p>
+                
+                <p>When you make a moral choice, you're not just picking an action—you're selecting from a probability distribution of futures. Single-path thinking (traditional consequentialism) assumes you can predict "the" outcome. Ensemble ethics recognizes you're choosing a <em>distribution</em> of outcomes.</p>
+                
+                <h3>The Single-Path Error</h3>
+            `;
+            
+            document.getElementById('module3Content').innerHTML = module3Content;
+            
+            // Different examples based on PRF
+            if (isPersonalized) {
+                let exampleHTML = '';
+                
+                switch(dominantName) {
+                    case 'care':
+                        exampleHTML = `
+                            <div class="decision-comparison">
+                                <div class="decision-card single">
+                                    <h4>❌ Single-Path (Care Bias)</h4>
+                                    <p><strong>Decision:</strong> "I'll help this person intensely right now, and everything will be fine."</p>
+                                    <p style="margin-top: 15px;"><strong>Problem:</strong> Assumes one trajectory. Ignores burnout, dependency, opportunity costs.</p>
+                                </div>
+                                
+                                <div class="decision-card ensemble">
+                                    <h4>✅ Ensemble Thinking</h4>
+                                    <p><strong>Run the ensemble:</strong></p>
+                                    <ul style="margin-left: 20px; margin-top: 10px;">
+                                        <li><strong>Sim 1 (25%):</strong> Help succeeds, person thrives</li>
+                                        <li><strong>Sim 2 (35%):</strong> You burn out in 3 months, can't help anyone</li>
+                                        <li><strong>Sim 3 (25%):</strong> Person becomes dependent, worse at 1 year</li>
+                                        <li><strong>Sim 4 (15%):</strong> Your help crowds out better-equipped helper</li>
+                                    </ul>
+                                    <p style="margin-top: 15px;"><strong>Result:</strong> 75% of simulations involve negative outcomes your Care PRF didn't compute.</p>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                    case 'fairness':
+                        exampleHTML = `
+                            <div class="decision-comparison">
+                                <div class="decision-card single">
+                                    <h4>❌ Single-Path (Fairness Bias)</h4>
+                                    <p><strong>Decision:</strong> "I'll wait until I have perfect data, then decide."</p>
+                                    <p style="margin-top: 15px;"><strong>Problem:</strong> Assumes waiting is safe. Ignores opportunity costs and closing windows.</p>
+                                </div>
+                                
+                                <div class="decision-card ensemble">
+                                    <h4>✅ Ensemble Thinking</h4>
+                                    <p><strong>Run the ensemble:</strong></p>
+                                    <ul style="margin-left: 20px; margin-top: 10px;">
+                                        <li><strong>Sim 1 (20%):</strong> Get perfect data, make optimal decision</li>
+                                        <li><strong>Sim 2 (40%):</strong> While analyzing, opportunity closes</li>
+                                        <li><strong>Sim 3 (25%):</strong> Someone acts with less data and wins</li>
+                                        <li><strong>Sim 4 (15%):</strong> Delay causes harm that action would have prevented</li>
+                                    </ul>
+                                    <p style="margin-top: 15px;"><strong>Result:</strong> 80% of simulations show costs of waiting your Fairness PRF didn't compute.</p>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                    case 'liberty':
+                        exampleHTML = `
+                            <div class="decision-comparison">
+                                <div class="decision-card single">
+                                    <h4>❌ Single-Path (Liberty Bias)</h4>
+                                    <p><strong>Decision:</strong> "I'll optimize for my individual freedom, no coordination needed."</p>
+                                    <p style="margin-top: 15px;"><strong>Problem:</strong> Assumes individual optimization is optimal. Ignores coordination gains.</p>
+                                </div>
+                                
+                                <div class="decision-card ensemble">
+                                    <h4>✅ Ensemble Thinking</h4>
+                                    <p><strong>Run the ensemble:</strong></p>
+                                    <ul style="margin-left: 20px; margin-top: 10px;">
+                                        <li><strong>Sim 1 (20%):</strong> Individual optimization works, no negative externalities</li>
+                                        <li><strong>Sim 2 (35%):</strong> Others retaliate with their own uncoordinated moves</li>
+                                        <li><strong>Sim 3 (30%):</strong> Coordination would have multiplied capability 10x</li>
+                                        <li><strong>Sim 4 (15%):</strong> System collapses into chaos (Tragedy of Commons)</li>
+                                    </ul>
+                                    <p style="margin-top: 15px;"><strong>Result:</strong> 80% of simulations show coordination benefits your Liberty PRF didn't compute.</p>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                    default:
+                        exampleHTML = `
+                            <div class="decision-comparison">
+                                <div class="decision-card single">
+                                    <h4>❌ Single-Path Thinking</h4>
+                                    <p><strong>Decision:</strong> "If I lie on my resume, I'll get the job and everything will be fine."</p>
+                                    <p style="margin-top: 15px;"><strong>Problem:</strong> Assumes ONE future trajectory.</p>
+                                </div>
+                                
+                                <div class="decision-card ensemble">
+                                    <h4>✅ Ensemble Thinking</h4>
+                                    <p><strong>Run the ensemble:</strong></p>
+                                    <ul style="margin-left: 20px; margin-top: 10px;">
+                                        <li><strong>Sim 1 (30%):</strong> Get job, perform well, lie never discovered</li>
+                                        <li><strong>Sim 2 (25%):</strong> Caught in background check, fired</li>
+                                        <li><strong>Sim 3 (25%):</strong> Get job but live in constant anxiety</li>
+                                        <li><strong>Sim 4 (20%):</strong> Promotion requires clearance; lie discovered years later</li>
+                                    </ul>
+                                    <p style="margin-top: 15px;"><strong>Result:</strong> 70% of simulations involve negative outcomes.</p>
+                                </div>
+                            </div>
+                        `;
+                }
+                
+                document.getElementById('module3Example').innerHTML = exampleHTML;
+                
+                document.getElementById('module3BlindSpot').innerHTML = `
+                    <div class="key-concept">
+                        <div class="key-concept-title">⚖️ Ensemble Ethics Framework</div>
+                        <p><strong>Step 1:</strong> Identify the decision</p>
+                        <p><strong>Step 2:</strong> Run mental simulations with different assumptions (especially the ones your PRF skips)</p>
+                        <p><strong>Step 3:</strong> Map the distribution: Which outcomes cluster? Which are tail risks?</p>
+                        <p><strong>Step 4:</strong> Ask: "Can I accept the tail risks?" Not just "What's the most likely outcome?"</p>
+                    </div>
+                `;
+                
+                document.getElementById('checkpoint3Question').textContent = 
+                    `Perform an ensemble check on a real decision you're facing. Describe at least 4 different futures. INCLUDE the simulations your ${capitalize(dominantName)} PRF naturally skips.`;
+            } else {
+                document.getElementById('module3Example').innerHTML = `
+                    <div class="decision-comparison">
+                        <div class="decision-card single">
+                            <h4>❌ Single-Path Thinking</h4>
+                            <p><strong>Decision:</strong> "If I lie on my resume, I'll get the job and everything will be fine."</p>
+                            <p style="margin-top: 15px;"><strong>Problem:</strong> Assumes ONE future trajectory.</p>
+                        </div>
+                        
+                        <div class="decision-card ensemble">
+                            <h4>✅ Ensemble Thinking</h4>
+                            <p><strong>Run the ensemble:</strong></p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Sim 1 (30%):</strong> Get job, perform well, lie never discovered</li>
+                                <li><strong>Sim 2 (25%):</strong> Caught in background check, fired</li>
+                                <li><strong>Sim 3 (25%):</strong> Get job but live in constant anxiety</li>
+                                <li><strong>Sim 4 (20%):</strong> Promotion requires clearance; lie discovered years later</li>
+                            </ul>
+                            <p style="margin-top: 15px;"><strong>Result:</strong> 70% of simulations involve negative outcomes.</p>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('module3BlindSpot').innerHTML = `
+                    <div class="key-concept">
+                        <div class="key-concept-title">⚖️ Ensemble Ethics Framework</div>
+                        <p><strong>Step 1:</strong> Identify the decision</p>
+                        <p><strong>Step 2:</strong> Run mental simulations with different assumptions</p>
+                        <p><strong>Step 3:</strong> Map the distribution: Which outcomes cluster? Which are outliers?</p>
+                        <p><strong>Step 4:</strong> Ask: "Can I accept the tail risks?" Not just "What's the most likely outcome?"</p>
+                    </div>
+                `;
+                
+                document.getElementById('checkpoint3Question').textContent = 
+                    "Perform an ensemble check on a real decision you're currently facing. Describe at least 4 different plausible futures that could result from your choice. What tail risks exist?";
+            }
+            
+            // Module 4 Content
+            if (isPersonalized) {
+                document.getElementById('module4Content').innerHTML = `
+                    <p>We typically treat doubt as a weakness: "They're uncertain, so they're unreliable." But in complex systems, doubt is <strong>precision</strong>.</p>
+                    
+                    <p>When a weather forecaster says "70% chance of rain," they're not being wishy-washy—they're giving you the <em>shape of the ensemble</em>. When 70% of simulations produce rain, that's what you should hear.</p>
+                    
+                    <div class="key-concept">
+                        <div class="key-concept-title">💡 Epistemic Humility</div>
+                        <p>Doubt is not "I don't know anything." It's "I know the shape of what I don't know."</p>
+                        <p>A tight cone means: <strong>"Act decisively—the futures converge."</strong></p>
+                        <p>A wide cone means: <strong>"Preserve options—the futures diverge wildly."</strong></p>
+                        <p>Both are valuable information. Neither is weakness.</p>
+                    </div>
+                `;
+                
+                document.getElementById('module4PRFWarning').innerHTML = `
+                    <div class="prf-warning">
+                        <div class="prf-warning-title">⚠️ ${capitalize(dominantName).toUpperCase()} PRF CONE WARNINGS</div>
+                        <p><strong>When you see a TIGHT cone:</strong></p>
+                        <p>${pattern.coneWarning.tight}</p>
+                        <p style="margin-top: 15px;"><strong>When you see a WIDE cone:</strong></p>
+                        <p>${pattern.coneWarning.wide}</p>
+                    </div>
+                `;
+                
+                document.getElementById('checkpoint4Question').textContent = 
+                    `Given your ${capitalize(dominantName)} PRF tendency, would you rather have a leader who is 100% certain (matching your bias) or one who understands the cone of uncertainty? Why?`;
+            } else {
+                document.getElementById('module4Content').innerHTML = `
+                    <p>We typically treat doubt as a weakness: "They're uncertain, so they're unreliable." But in complex systems, doubt is <strong>precision</strong>.</p>
+                    
+                    <p>When a weather forecaster says "70% chance of rain," they're not being wishy-washy—they're giving you the <em>shape of the ensemble</em>. When 70% of simulations produce rain, that's what you should hear.</p>
+                    
+                    <div class="key-concept">
+                        <div class="key-concept-title">💡 Epistemic Humility</div>
+                        <p>Doubt is not "I don't know anything." It's "I know the shape of what I don't know."</p>
+                        <p>A tight cone means: <strong>"Act decisively—the futures converge."</strong></p>
+                        <p>A wide cone means: <strong>"Preserve options—the futures diverge wildly."</strong></p>
+                        <p>Both are valuable information. Neither is weakness.</p>
+                    </div>
+                `;
+                
+                document.getElementById('module4PRFWarning').innerHTML = '';
+                document.getElementById('checkpoint4Question').textContent = 
+                    "Would you rather have a leader who is 100% certain (but potentially wrong), or one who understands and communicates the cone of uncertainty? Why?";
+            }
+            
+            // Module 5 Content
+            if (isPersonalized) {
+                document.getElementById('module5Content').innerHTML = `
+                    <p>A <strong>pre-mortem</strong> is an ensemble technique in reverse. Instead of asking "What could go right?", you assume your plan has <em>already failed spectacularly</em> and work backward to figure out why.</p>
+                    
+                    <p>This forces you to explore the tail-risk simulations that optimistic single-path thinking ignores—especially the ones your ${capitalize(dominantName)} PRF naturally skips.</p>
+                    
+                    <div class="key-concept">
+                        <div class="key-concept-title">🔍 How the Pre-Mortem Works</div>
+                        <p><strong>Traditional planning:</strong> "Here's our plan. Let's implement it and hope it works."</p>
+                        <p><strong>Pre-mortem planning:</strong> "Imagine it's one year from now and our plan failed catastrophically. What happened?"</p>
+                        <p>By assuming failure, you bypass confirmation bias and force yourself to run the dark simulations.</p>
+                    </div>
+                `;
+                
+                document.getElementById('premortemIntro').innerHTML = `
+                    <p>Based on your <strong>${capitalize(dominantName)}-${prfProfile.dominant.value.toFixed(1)}</strong> PRF, here's a failure template to help you identify your blind spots. You can use this template or analyze your own plan:</p>
+                `;
+                
+                document.getElementById('module5PRFGuidance').innerHTML = `
+                    <div class="blind-spot-detector">
+                        <div class="blind-spot-title">🎯 Your PRF-Specific Failure Pattern</div>
+                        <div style="white-space: pre-line; margin-top: 15px;">${pattern.premortemTemplate}</div>
+                        
+                        <p style="margin-top: 20px; font-weight: bold;">Use this template to guide your pre-mortem, or analyze your own plan using the same logic: What simulations does your PRF skip that lead to failure?</p>
+                    </div>
+                    
+                    <div class="key-concept" style="margin-top: 25px;">
+                        <div class="key-concept-title">🛡️ Making Decisions Robust</div>
+                        <p>The pre-mortem doesn't tell you not to act. It tells you <em>which simulations to defend against</em>.</p>
+                        <p>Once you've identified the failure modes, you can either:</p>
+                        <ul style="margin-left: 25px; margin-top: 10px;">
+                            <li><strong>Redesign the plan</strong> to avoid those pathways</li>
+                            <li><strong>Install tripwires</strong> (early warning systems) to detect when you're entering a failure simulation</li>
+                            <li><strong>Accept the risk</strong> with full knowledge of what you're betting on</li>
+                        </ul>
+                        <p style="margin-top: 15px;">This is how you move from fragile (breaks under stress) to robust (withstands the tail risks).</p>
+                    </div>
+                `;
+            } else {
+                document.getElementById('module5Content').innerHTML = `
+                    <p>A <strong>pre-mortem</strong> is an ensemble technique in reverse. Instead of asking "What could go right?", you assume your plan has <em>already failed spectacularly</em> and work backward to figure out why.</p>
+                    
+                    <p>This forces you to explore the tail-risk simulations that optimistic single-path thinking ignores.</p>
+                    
+                    <div class="key-concept">
+                        <div class="key-concept-title">🔍 How the Pre-Mortem Works</div>
+                        <p><strong>Traditional planning:</strong> "Here's our plan. Let's implement it and hope it works."</p>
+                        <p><strong>Pre-mortem planning:</strong> "Imagine it's one year from now and our plan failed catastrophically. What happened?"</p>
+                        <p>By assuming failure, you bypass confirmation bias and force yourself to run the dark simulations.</p>
+                    </div>
+                `;
+                
+                document.getElementById('premortemIntro').textContent = 
+                    "Walk through the three steps below to perform a pre-mortem on a current plan or decision:";
+                
+                document.getElementById('module5PRFGuidance').innerHTML = `
+                    <div class="key-concept">
+                        <div class="key-concept-title">🛡️ Making Decisions Robust</div>
+                        <p>The pre-mortem doesn't tell you not to act. It tells you <em>which simulations to defend against</em>.</p>
+                        <p>Once you've identified the failure modes, you can either:</p>
+                        <ul style="margin-left: 25px; margin-top: 10px;">
+                            <li><strong>Redesign the plan</strong> to avoid those pathways</li>
+                            <li><strong>Install tripwires</strong> (early warning systems) to detect when you're entering a failure simulation</li>
+                            <li><strong>Accept the risk</strong> with full knowledge of what you're betting on</li>
+                        </ul>
+                        <p style="margin-top: 15px;">This is how you move from fragile (breaks under stress) to robust (withstands the tail risks).</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
         
         // Progress tracking
         function updateProgress() {
             const progress = Math.round((currentModule / (totalModules - 1)) * 100);
             const fill = document.getElementById('progressFill');
             const text = document.getElementById('progressText');
-            const progressBar = document.querySelector('.progress-bar');
             
             fill.style.width = progress + '%';
             text.textContent = progress + '%';
-            progressBar.setAttribute('aria-valuenow', progress);
         }
         
-        // Navigation functions
+        // Navigation
         function nextModule() {
             if (currentModule < totalModules - 1) {
                 document.getElementById('module' + currentModule).classList.remove('active');
@@ -966,9 +1950,6 @@
                 document.getElementById('module' + currentModule).classList.add('active');
                 updateProgress();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                
-                // Announce to screen readers
-                announceModule();
             }
         }
         
@@ -979,28 +1960,10 @@
                 document.getElementById('module' + currentModule).classList.add('active');
                 updateProgress();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                
-                // Announce to screen readers
-                announceModule();
             }
         }
         
-        function announceModule() {
-            const heading = document.querySelector(`#module${currentModule} h2`);
-            if (heading) {
-                // Create temporary live region for announcement
-                const announcement = document.createElement('div');
-                announcement.setAttribute('role', 'status');
-                announcement.setAttribute('aria-live', 'polite');
-                announcement.className = 'sr-only';
-                announcement.textContent = `Now viewing: ${heading.textContent}`;
-                document.body.appendChild(announcement);
-                
-                setTimeout(() => document.body.removeChild(announcement), 1000);
-            }
-        }
-        
-        // Module 1: Lorenz Simulation
+        // Lorenz Simulation
         function runLorenz() {
             const btn = document.getElementById('lorenzBtn');
             const fb = document.getElementById('lorenzFeedback');
@@ -1011,7 +1974,6 @@
             fb.classList.add('show');
             fb.innerHTML = '<span class="loading">Calculating weather trajectories...</span>';
             
-            // Day 3 divergence
             setTimeout(() => {
                 document.getElementById('iconOrig').textContent = '☁️';
                 document.getElementById('iconRound').textContent = '⛅';
@@ -1020,7 +1982,6 @@
                 fb.innerHTML = '<strong>Day 3:</strong> Slight divergence beginning...';
             }, 1200);
             
-            // Day 7 major divergence
             setTimeout(() => {
                 document.getElementById('iconOrig').textContent = '🌧️';
                 document.getElementById('iconRound').textContent = '☀️';
@@ -1032,17 +1993,15 @@
             }, 3000);
         }
         
-        // Module 2: Ensemble Simulation
+        // Ensemble Simulation
         function initializeEnsemble() {
             const container = document.getElementById('ensembleGrid');
             container.innerHTML = '';
-            container.setAttribute('aria-label', 'Ensemble simulation showing 50 dots in starting position');
             
             for (let i = 0; i < 50; i++) {
                 const dot = document.createElement('div');
                 dot.className = 'simulation-dot';
                 dot.id = 'dot' + i;
-                dot.setAttribute('role', 'presentation');
                 container.appendChild(dot);
             }
         }
@@ -1050,7 +2009,6 @@
         function startEnsemble() {
             const fb = document.getElementById('ensembleFeedback');
             const btn = document.getElementById('ensembleBtn');
-            const container = document.getElementById('ensembleGrid');
             
             btn.disabled = true;
             fb.textContent = 'Running 50 parallel simulations...';
@@ -1058,18 +2016,14 @@
             setTimeout(() => {
                 for (let i = 0; i < 50; i++) {
                     const dot = document.getElementById('dot' + i);
-                    
-                    // Create clustered center (most likely) and scattered tail risks
-                    const isCenter = Math.random() > 0.3; // 70% cluster in center
+                    const isCenter = Math.random() > 0.3;
                     
                     let x, y;
                     if (isCenter) {
-                        // Cluster around center (green - most likely)
                         x = (Math.random() - 0.5) * 120;
                         y = (Math.random() - 0.5) * 100;
                         dot.style.background = '#48bb78';
                     } else {
-                        // Scatter widely (red - tail risks)
                         x = (Math.random() - 0.5) * 320;
                         y = (Math.random() - 0.5) * 250;
                         dot.style.background = '#f56565';
@@ -1077,8 +2031,6 @@
                     
                     dot.style.transform = `translate(${x}px, ${y}px)`;
                 }
-                
-                container.setAttribute('aria-label', 'Ensemble simulation complete: green dots show most likely outcomes, red dots show tail risks');
             }, 100);
             
             setTimeout(() => {
@@ -1093,15 +2045,13 @@
             document.getElementById('ensembleBtn').disabled = false;
         }
         
-        // Module 4: Cone of Uncertainty
+        // Cone Visualization
         function updateCone(type) {
             const shape = document.getElementById('coneShape');
             const fb = document.getElementById('coneFeedback');
-            const display = document.querySelector('.cone-display');
             
             if (type === 'tight') {
                 shape.className = 'cone-shape cone-tight';
-                display.setAttribute('aria-label', 'Narrow cone expanding from left to right, showing high model agreement and low uncertainty');
                 fb.innerHTML = `
                     <div class="key-concept-title">✅ Tight Cone: High Agreement</div>
                     <p><strong>Meaning:</strong> The ensemble models agree closely. The cone stays narrow as time progresses. Uncertainty is low.</p>
@@ -1110,7 +2060,6 @@
                 `;
             } else {
                 shape.className = 'cone-shape cone-wide';
-                display.setAttribute('aria-label', 'Wide cone expanding dramatically from left to right, showing high model divergence and uncertainty');
                 fb.innerHTML = `
                     <div class="key-concept-title">⚠️ Wide Cone: High Chaos</div>
                     <p><strong>Meaning:</strong> The ensemble models diverge wildly. The cone spreads wide as time progresses. Uncertainty is high.</p>
@@ -1120,7 +2069,7 @@
             }
         }
         
-        // Module 5: Pre-Mortem
+        // Pre-Mortem
         function completePremortem() {
             const plan = document.getElementById('pmPlan').value.trim();
             const failure = document.getElementById('pmFailure').value.trim();
@@ -1143,13 +2092,23 @@
                 result.classList.add('show');
                 result.style.background = 'linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%)';
                 result.style.borderColor = '#48bb78';
-                result.innerHTML = `
+                
+                let analysisHTML = `
                     <div style="margin-bottom: 15px;"><strong>✅ Pre-Mortem Analysis Complete</strong></div>
                     <p><strong>What you've accomplished:</strong></p>
                     <ul style="margin-left: 25px; margin-top: 10px;">
                         <li>Identified <strong>failure modes</strong> that optimistic planning would miss</li>
                         <li>Traced the <strong>causal chain</strong> from small decisions to catastrophe</li>
                         <li>Made the <strong>invisible costs visible</strong> before committing resources</li>
+                `;
+                
+                if (isPersonalized) {
+                    analysisHTML += `
+                        <li><strong>Addressed your ${capitalize(prfProfile.dominant.name)} PRF blind spots</strong> that single-path thinking ignores</li>
+                    `;
+                }
+                
+                analysisHTML += `
                     </ul>
                     <p style="margin-top: 15px;"><strong>Next steps:</strong></p>
                     <ul style="margin-left: 25px; margin-top: 5px;">
@@ -1159,30 +2118,14 @@
                     </ul>
                     <p style="margin-top: 15px;"><em>This is how you move from fragile to robust.</em></p>
                 `;
+                
+                result.innerHTML = analysisHTML;
                 btn.disabled = false;
                 btn.textContent = '✓ Analysis Complete';
             }, 1500);
         }
         
-        // Keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            // Alt + Right Arrow = Next
-            if (e.altKey && e.key === 'ArrowRight') {
-                e.preventDefault();
-                if (currentModule < totalModules - 1) {
-                    nextModule();
-                }
-            }
-            // Alt + Left Arrow = Previous
-            if (e.altKey && e.key === 'ArrowLeft') {
-                e.preventDefault();
-                if (currentModule > 0) {
-                    prevModule();
-                }
-            }
-        });
-        
-        // Download Reflections Function
+        // Download Reflections
         function downloadReflections() {
             const date = new Date().toLocaleDateString('en-US', { 
                 year: 'numeric', 
@@ -1190,30 +2133,52 @@
                 day: 'numeric' 
             });
             
-            // Collect all reflection data
+            let content = `CHAOS, DOUBT, AND MORAL RESPONSIBILITY
+The Ensemble Approach to Ethical Decision-Making
+${isPersonalized ? 'PRF-PERSONALIZED VERSION' : 'GENERIC VERSION'}
+Reflections completed on: ${date}
+
+${'='.repeat(80)}
+
+`;
+            
+            if (isPersonalized && prfProfile) {
+                content += `\nPRF PROFILE
+${'-'.repeat(80)}
+Name: ${prfProfile.name}
+Dominant Foundation: ${capitalize(prfProfile.dominant.name)}-${prfProfile.dominant.value.toFixed(1)}
+
+Foundation Weights:
+`;
+                for (const [foundation, value] of Object.entries(prfProfile.foundations)) {
+                    content += `  ${capitalize(foundation)}: ${value.toFixed(1)}\n`;
+                }
+                
+                const pattern = prfPatterns[prfProfile.dominant.name];
+                content += `\nYour Certainty Bias: ${pattern.certaintyBias}
+Your Blind Spots: ${pattern.blindSpots.join(', ')}
+Your Ensemble Weakness: ${pattern.ensembleWeakness}
+
+${'-'.repeat(80)}\n\n`;
+            }
+            
             const reflections = {
                 'Module 0: The Sin of Certainty': {
-                    question: 'Why does certainty feel like a "drug" to the brain? Describe a time when you felt certain about something, only to discover later that the situation was far more complex than you realized.',
                     answer: document.getElementById('checkpoint0')?.value || '[Not completed]'
                 },
                 'Module 1: The Butterfly Effect': {
-                    question: 'Describe a time when a tiny choice had massive unintended consequences. What made the system chaotic? Could you have predicted the outcome?',
                     answer: document.getElementById('checkpoint1')?.value || '[Not completed]'
                 },
                 'Module 2: The Ensemble Solution': {
-                    question: 'How does running multiple simulations protect against "Butterfly Effect" errors? Why is the spread of outcomes as important as the center?',
                     answer: document.getElementById('checkpoint2')?.value || '[Not completed]'
                 },
                 'Module 3: Ethical Ensembles': {
-                    question: 'Perform an ensemble check on a real decision you\'re currently facing. Describe at least 4 different plausible futures that could result from your choice. What tail risks exist?',
                     answer: document.getElementById('checkpoint3')?.value || '[Not completed]'
                 },
                 'Module 4: Doubt as Precision': {
-                    question: 'Would you rather have a leader who is 100% certain (but potentially wrong), or one who understands and communicates the cone of uncertainty? Why?',
                     answer: document.getElementById('checkpoint4')?.value || '[Not completed]'
                 },
-                'Module 5: The Pre-Mortem Tool': {
-                    question: 'Pre-Mortem Analysis',
+                'Module 5: Pre-Mortem Analysis': {
                     subsections: {
                         'Your Plan': document.getElementById('pmPlan')?.value || '[Not completed]',
                         'The Spectacular Failure': document.getElementById('pmFailure')?.value || '[Not completed]',
@@ -1222,27 +2187,14 @@
                 }
             };
             
-            // Format the content
-            let content = `CHAOS, DOUBT, AND MORAL RESPONSIBILITY
-The Ensemble Approach to Ethical Decision-Making
-Reflections completed on: ${date}
-
-${'='.repeat(80)}
-
-`;
-            
-            // Add each module's reflection
             for (const [module, data] of Object.entries(reflections)) {
                 content += `\n${module}\n${'-'.repeat(module.length)}\n\n`;
                 
                 if (data.subsections) {
-                    // Handle Pre-Mortem special case
-                    content += `QUESTION: ${data.question}\n\n`;
                     for (const [subsection, answer] of Object.entries(data.subsections)) {
                         content += `${subsection}:\n${answer}\n\n`;
                     }
                 } else {
-                    content += `QUESTION:\n${data.question}\n\n`;
                     content += `YOUR REFLECTION:\n${data.answer}\n\n`;
                 }
                 
@@ -1250,24 +2202,26 @@ ${'='.repeat(80)}
             }
             
             content += `\n\nEND OF REFLECTIONS\n`;
-            content += `This document contains your personal reflections from the "Chaos, Doubt, and Moral Responsibility" learning module.\n`;
-            content += `These reflections demonstrate your engagement with ensemble thinking and ethical decision-making under uncertainty.\n`;
             
-            // Create blob and download
+            if (isPersonalized) {
+                content += `\nThis document contains your PRF-personalized reflections, including specific analysis of your certainty biases and blind spots.\n`;
+            } else {
+                content += `\nThis document contains your reflections from the generic version of the course.\n`;
+            }
+            
             const blob = new Blob([content], { type: 'text/plain' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `chaos_doubt_reflections_${new Date().toISOString().split('T')[0]}.txt`;
+            a.download = `chaos_doubt_reflections_${isPersonalized ? 'personalized_' : ''}${new Date().toISOString().split('T')[0]}.txt`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
             
-            // Visual feedback
             const btn = document.querySelector('.download-button');
             const originalContent = btn.innerHTML;
-            btn.innerHTML = '<span class="download-icon" aria-hidden="true">✓</span><span>Downloaded!</span>';
+            btn.innerHTML = '<span class="download-icon">✓</span><span>Downloaded!</span>';
             btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
             
             setTimeout(() => {
@@ -1276,13 +2230,21 @@ ${'='.repeat(80)}
             }, 2000);
         }
         
-        // Initialize on load
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.altKey && e.key === 'ArrowRight' && currentModule < totalModules - 1) {
+                e.preventDefault();
+                nextModule();
+            }
+            if (e.altKey && e.key === 'ArrowLeft' && currentModule > 0) {
+                e.preventDefault();
+                prevModule();
+            }
+        });
+        
+        // Initialize
         window.addEventListener('load', function() {
             initializeEnsemble();
-            updateProgress();
-            
-            // Announce keyboard shortcuts to screen reader users
-            console.log('Keyboard shortcuts: Alt + Right Arrow = Next module, Alt + Left Arrow = Previous module');
         });
     </script>
 </body>
